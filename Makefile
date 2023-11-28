@@ -29,5 +29,8 @@ client/client.o: client/client.c client/client.h
 client/menu.o: client/menu.c client/client.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-clean:
+clean_o:
+	rm -f server/*.o client/*.o
+
+clean_all:
 	rm -f server/*.o client/*.o bin/server bin/client
