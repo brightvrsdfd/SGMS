@@ -7,7 +7,7 @@ Course Design of OS, SCUT, 2023
 | Team Member | Responsibilities                       |
 |-------------|----------------------------------------|
 | Zhiyu Jiang (江知雨)   | File System Management, User Management|
-| Haoquan Zhang (张皓圈) | Course Management, Server-Client Communication |
+| Haoquan Zhang (张皓泉) | Course Management, Server-Client Communication |
 | Zhizhan Zhang (张治展) | Grade Management, Integration Testing  |
 | Xupeng Gu (古旭鹏)     | Assignment Management, Permissions Handling |
 
