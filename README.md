@@ -1,16 +1,30 @@
-# 学生成绩管理系统_项目要求与架构
+# Student Grade Management System
+Course design of Operation System, SCUT, 2023
 
-系统采用 server-client 架构，即数据存储于 server 上，用户通过 client 进行访问，同时允许多个用户对系统进行访问。
+| Name          | Responsibilities                                       |
+|---------------|--------------------------------------------------------|
+| Haoquan Zhang | System architecture design, file system implementation, permission management implementation, server-client communication |
+| Zhiyu Jiang   | File system extension, backup system implementation, snapshot system implementation |
+| Zhizhan Zhang | I-Node structure design, file system extension, backup system implementation, snapshot system implementation |
+| Xupeng Gu     | File system extension, documentation writing, slideshow design |
 
-系统用户分为三类：
 
-1. **TEACHER**：发布作业、接收学生作业并为作业打分，一位教师可以同时教授多门课程。
+## Basic Requirements
+* The system adopts a `server-client` architecture
+* Data is stored on the `server`
+* Users access the system through the `client`. 
+* Multiple users are allowed to access the system simultaneously.
 
-2. **STUDENT**：查看作业内容、上传作业并获取课程成绩，一名学生可以同时选修多门课程。
+The system users are divided into three categories:
 
-3. **ADMIN**：拥有教师和学生功能权限的同时，还可以开通用户账号，以及对系统进行备份与恢复。
+1. **TEACHER**: Can publish assignments, receive student assignments, and grade assignments. A teacher can teach multiple courses simultaneously.
 
-该系统基于操作系统的基本文件管理与进程通讯原理，文件系统类型采用 I-Node，进程间通讯采用管道（Pipe），需要实现以下功能：
+2. **STUDENT**: Can view assignment content, upload assignments, and obtain course grades. A student can enroll in multiple courses concurrently.
+
+3. **ADMIN**: Possesses both teacher and student functionalities and has the additional capability to create user accounts, as well as backup and restore the system.
+
+The system is built on the principles of basic file management and inter-process communication in the operating system. It employs the `I-Node` file system type and uses `pipes` for inter-process communication. The system is required to implement the following functionalities:
+
 
 |          | ADMIN | TEACHER | STUDENT |
 |----------|--------|------|------|
