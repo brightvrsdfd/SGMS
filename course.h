@@ -1,28 +1,27 @@
-// course.h
-
 #ifndef COURSE_H
 #define COURSE_H
 
-#define MAX_COURSE_NAME_LENGTH 100
-#define MAX_TEACHER_NAME_LENGTH 50
-#define MAX_STUDENT_NAME_LENGTH 50
-#define MAX_STUDENTS_IN_COURSE 10  // 假设一个课程最多有10个学生
+#include <iostream>
+#include <string>
+#include <vector>
 
-// 课程信息结构体
-typedef struct {
-    char name[MAX_COURSE_NAME_LENGTH];
-    char teacher[MAX_TEACHER_NAME_LENGTH];
-    char students[MAX_STUDENTS_IN_COURSE][MAX_STUDENT_NAME_LENGTH];
-    int studentCount;
-} Course;
+class Course {
+public:
+    Course(const std::string& courseName, const std::string& teacherName);
 
-// 课程管理函数
-Course* createCourse(const char* name, const char* teacher);
-void deleteCourse(Course* course);
-void printCourseInfo(Course* course);
+    std::string getCourseName() const;
+    std::string getTeacherName() const;
 
-// 学生管理函数
-void addStudentToCourse(Course* course, const char* studentName);
-void printCourseStudents(Course* course);
+    void addStudent(const std::string& studentName);
+    void gradeStudent(const std::string& studentName, int finalGrade);
+
+    void printCourseInfo() const;
+
+private:
+    std::string courseName;
+    std::string teacherName;
+    std::vector<std::string> studentNames;
+    std::vector<int> finalGrades;
+};
 
 #endif // COURSE_H

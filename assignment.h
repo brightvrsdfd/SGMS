@@ -1,24 +1,29 @@
-// assignment.h
-
 #ifndef ASSIGNMENT_H
 #define ASSIGNMENT_H
 
-#define MAX_ASSIGNMENT_NAME_LENGTH 100
-#define MAX_STUDENT_NAME_LENGTH 50
-#define MAX_ASSIGNMENTS_IN_COURSE 10  // 假设一个课程最多有10个作业
+#include <iostream>
+#include <string>
+#include <vector>
 
-// 作业信息结构体
-typedef struct {
-    char name[MAX_ASSIGNMENT_NAME_LENGTH];
-    char students[MAX_ASSIGNMENTS_IN_COURSE][MAX_STUDENT_NAME_LENGTH];
-    int scores[MAX_ASSIGNMENTS_IN_COURSE];
-    int assignmentCount;
-} Assignment;
+class Assignment {
+public:
+    Assignment(const std::string& courseName, const std::string& teacherName, const std::string& assignmentIndex);
 
-// 作业管理函数
-Assignment* createAssignment(const char* name);
-void deleteAssignment(Assignment* assignment);
-void printAssignmentInfo(Assignment* assignment);
-void assignGrade(Assignment* assignment, const char* studentName, int score);
+    std::string getCourseName() const;
+    std::string getTeacherName() const;
+    std::string getAssignmentIndex() const;
+
+    void addStudent(const std::string& studentName);
+    void gradeStudent(const std::string& studentName, int grade);
+
+    void printAssignmentInfo() const;
+
+private:
+    std::string courseName;
+    std::string teacherName;
+    std::string assignmentIndex;
+    std::vector<std::string> studentNames;
+    std::vector<int> grades;
+};
 
 #endif // ASSIGNMENT_H
