@@ -18,12 +18,12 @@ int main()
             cout << endl
                  << "help       -- more avaliable commands\n"
                  << "exit       -- exit file system\n"
-                 << "createdir  -- create a directory.           Provide the path of the new dir.\n"
-                 << "createfile -- create a file.                Provide the path of the new file.\n"
-                 << "delete     -- delete a directory or a file. Provide the path of the dir or the file.\n"
-                 << "list       -- list all directory and file.  Provide the path of the dir.\n"
-                 << "read       -- read a file.                  Provide the path of the file.\n"
-                 << "write      -- write a file.                 Provide the path of the file.\n"
+                 << "createdir  -- create a directory.           (input the path of the new dir.)\n"
+                 << "createfile -- create a file.                (input the path of the new file.)\n"
+                 << "delete     -- delete a directory or a file. (input the path of the dir or the file.)\n"
+                 << "list       -- list all directory and file.  (input the path of the dir.)\n"
+                 << "read       -- read a file.                  (input the path of the file.)\n"
+                 << "write      -- write a file.                 (input the path of the file.)\n"
                  << endl;
         }
         else if (command == "exit")
@@ -32,19 +32,21 @@ int main()
         }
         else if (command == "createdir")
         {
-            cout << "Input path:" << endl;
+            cout << "Input path:";
             string path;
             cin >> path;
             fileSys.CreateDirectory(path);
-            cout << "Complete." << endl;
+            cout << "\"" << path << "\" is created." << endl;
+            cout << "------------------------------" << endl;
         }
         else if (command == "createfile")
         {
-            cout << "Input path:" << endl;
+            cout << "Input path:";
             string path;
             cin >> path;
             fileSys.CreateFile(path);
-            cout << "Complete." << endl;
+            cout << "\"" << path << "\" is created." << endl;
+            cout << "------------------------------" << endl;
         }
         else if (command == "delete")
         {
@@ -52,7 +54,8 @@ int main()
             string path;
             cin >> path;
             fileSys.Delete(path);
-            cout << "Complete." << endl;
+            cout << "\"" << path << "\" is deleted." << endl;
+            cout << "------------------------------" << endl;
         }
         else if (command == "list")
         {
@@ -60,12 +63,13 @@ int main()
             string path;
             cin >> path;
             vector<string> list = fileSys.List(path);
-            cout << "There are directories and files:" << endl;
+            cout << "Directories and files:" << endl;
             for (int i = 0; i < list.size(); i++)
             {
                 cout << list[i] << endl;
             }
             cout << "\nComplete." << endl;
+            cout << "------------------------------" << endl;
         }
         else if (command == "read")
         {
@@ -75,6 +79,7 @@ int main()
             cout << "File content is:\n"
                  << fileSys.ReadFile(path) << endl;
             cout << "\nComplete." << endl;
+            cout << "------------------------------" << endl;
         }
         else if (command == "write")
         {
@@ -86,6 +91,7 @@ int main()
             cin >> content;
             fileSys.WriteFile(path, content);
             cout << "Complete." << endl;
+            cout << "------------------------------" << endl;
         }
         else
             cout << "invalid input" << endl;
