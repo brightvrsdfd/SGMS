@@ -16,35 +16,34 @@ int main()
         if (command == "help")
         {
             cout << endl
-                 << "help   -- get help\n"
-                 << "exit   -- exit system\n"
-                 << "create -- create a directory or file. Provide the path along with the name of the file you try to create.\n"
-                 << "delete -- delete the specified directory or file\n"
-                 << "list   -- print all directory or file names in specified directory\n"
-                 << "read   -- read the specified file\n"
-                 << "write  -- write to he specified file\n"
+                 << "help       -- more avaliable commands\n"
+                 << "exit       -- exit file system\n"
+                 << "createdir  -- create a directory.           Provide the path of the new dir.\n"
+                 << "createfile -- create a file.                Provide the path of the new file.\n"
+                 << "delete     -- delete a directory or a file. Provide the path of the dir or the file.\n"
+                 << "list       -- list all directory and file.  Provide the path of the dir.\n"
+                 << "read       -- read a file.                  Provide the path of the file.\n"
+                 << "write      -- write a file.                 Provide the path of the file.\n"
                  << endl;
         }
         else if (command == "exit")
         {
             break;
         }
-        else if (command == "create")
+        else if (command == "createdir")
         {
-            cout << "Which type do you want to create? (0:Directory, 1:File)" << endl;
-            int isFile;
-            cin >> isFile;
-            if (isFile != 0 && isFile != 1){
-                cout << "invalid input" << endl;
-                break;
-            }
             cout << "Input path:" << endl;
             string path;
             cin >> path;
-            if (isFile)
-                fileSys.CreateFile(path);
-            else
-                fileSys.CreateDirectory(path);
+            fileSys.CreateDirectory(path);
+            cout << "Complete." << endl;
+        }
+        else if (command == "createfile")
+        {
+            cout << "Input path:" << endl;
+            string path;
+            cin >> path;
+            fileSys.CreateFile(path);
             cout << "Complete." << endl;
         }
         else if (command == "delete")
