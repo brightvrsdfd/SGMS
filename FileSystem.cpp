@@ -248,6 +248,21 @@ vector<string> FileSystem::List(string path)
     return res;
 }
 
+void FileSystem::ListTree(string path){
+    static int level = 0;
+    vector<string> list = FileSystem::List(path);
+    for (int i = 0; i < list.size(); i++)
+    {
+        for (int j = 0; j < level; j++){
+            cout << "  ";
+        }
+        cout << list[i] << endl;
+        level++;
+        ListTree(path + "/" + list[i]);
+        level--;
+    }
+}
+
 void FileSystem::Copy(string sourcePath, string targetDir)
 {
     vector<string> srcPath = ProcessDir(sourcePath);

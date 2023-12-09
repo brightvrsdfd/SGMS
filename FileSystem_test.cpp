@@ -4,9 +4,10 @@
 #include "FileSystem.h"
 using namespace std;
 
+FileSystem fileSys;
+
 int main()
 {
-    FileSystem fileSys;
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << "Input \"help\" to get help, or input other valid command. Enter 0 to exit the system" << endl;
     cout << "--------------------------------------------------------------------------------" << endl;
@@ -22,9 +23,11 @@ int main()
                  << "1       -- create a directory.           (input the path of the new dir.)\n"
                  << "2       -- create a file.                (input the path of the new file.)\n"
                  << "3       -- delete a directory or a file. (input the path of the dir or the file.)\n"
-                 << "4       -- list all directory and file.  (input the path of the dir.)\n"
-                 << "5       -- read a file.                  (input the path of the file.)\n"
-                 << "6       -- write a file.                 (input the path of the file.)\n"
+                 << "4       -- list in current directory.    (input the path of the dir.)\n"
+                 << "5       -- list in tree.                 (input the path of the dir.)\n"
+                 << "6       -- read a file.                  (input the path of the file.)\n"
+                 << "7       -- write a file.                 (input the path of the file.)\n"
+                 << "8       -- copy one directory to another (input the source path and the target path.)\n"
                  << "--------------------------------------------------------------------------------" << endl;
         }
         else if (command == "0")
@@ -74,6 +77,16 @@ int main()
         }
         else if (command == "5")
         {
+            cout << "Input path:";
+            string path;
+            cin >> path;
+            cout << "Directories and files:" << endl;
+            fileSys.ListTree(path);
+            cout << "\nDirectories and files are shown as above." << endl;
+            cout << "--------------------------------------------------------------------------------" << endl;
+        }
+        else if (command == "6")
+        {
             cout << "Input path:" << endl;
             string path;
             cin >> path;
@@ -81,7 +94,7 @@ int main()
                  << fileSys.ReadFile(path) << endl;
             cout << "--------------------------------------------------------------------------------" << endl;
         }
-        else if (command == "6")
+        else if (command == "7")
         {
             cout << "Input path:" << endl;
             string path;
@@ -91,6 +104,18 @@ int main()
             cin >> content;
             fileSys.WriteFile(path, content);
             cout << "\"" << path << "\" file content is modified." << endl;
+            cout << "--------------------------------------------------------------------------------" << endl;
+        }
+        else if (command == "8")
+        {
+            cout<<"Input the Source Path and the target directory."<<endl;
+            string SourcePath,targetPAth;
+            cout<<"Please enter the Source Path:";
+            cin>>SourcePath;
+            cout<<"Please enter the target path:";
+            cin>>targetPAth;
+            fileSys.Copy(SourcePath,targetPAth);
+            cout<<"Copied."<<endl;
             cout << "--------------------------------------------------------------------------------" << endl;
         }
         else

@@ -28,6 +28,7 @@ public:
     void Delete(std::string path);
 
     std::vector<std::string> List(std::string path);
+    void ListTree(std::string path);
 
     void Copy(std::string sourcePath, std::string targetDir);
 
