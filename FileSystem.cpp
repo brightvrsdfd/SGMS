@@ -1,6 +1,7 @@
 #include "FileSystem.h"
 #include <sstream>
 #include <string.h>
+#include <iostream>
 
 using namespace std;
 
@@ -70,11 +71,33 @@ void FileSystem::Delete_k2(int InodeIdx)
 {
     if (InodeMemory[InodeIdx].bIsDir)
     {
-        DeleteDir_k2(InodeIdx);
+        // DeleteDir_k2(InodeIdx);
+        // Del Dir
+        int BlockIdx = InodeMemory[InodeIdx].BlockID;
+        DirectoryBlock *Block = reinterpret_cast<DirectoryBlock *>(&BlockMemory[BlockIdx]);
+
+        for (int i = 0; i < ENTRY_NUMBER; i++)
+        {
+            if (Block->InodeID[i])
+            {
+                Delete_k2(Block->InodeID[i]);
+            }
+        }
+
+        memset(&InodeMemory[InodeIdx], 0, sizeof(Inode));
+        memset(&BlockMemory[BlockIdx], 0, sizeof(DirectoryBlock));
+        bIsInodeFree.set(InodeIdx);
+        bIsBlockFree.set(BlockIdx);
     }
     else
     {
-        DeleteFile_k2(InodeIdx);
+        // DeleteFile_k2(InodeIdx);
+        // Del File
+        int BlockIdx = InodeMemory[InodeIdx].BlockID;
+        memset(&InodeMemory[InodeIdx], 0, sizeof(Inode));
+        memset(&BlockMemory[BlockIdx], 0, sizeof(FileBlock));
+        bIsInodeFree.set(InodeIdx);
+        bIsBlockFree.set(BlockIdx);
     }
 }
 
@@ -256,12 +279,17 @@ string FileSystem::ReadFile(string path)
 {
     vector<string> epath = ProcessDir(path);
     int _InodeIdx = SearchParentInode(epath);
-    if (_InodeIdx == 0 && epath.size() != 1)
+    if (_InodeIdx == 0 && epath.size() != 1){
+        std::cout << "Invalid path" << endl;
         return "";
+    }
+        
 
     int InodeIdx = GetInodeFromDir(epath.back(), _InodeIdx);
-    if (InodeIdx == 0 || InodeMemory[InodeIdx].bIsDir)
+    if (InodeIdx == 0 || InodeMemory[InodeIdx].bIsDir){
+        std::cout << "It is not a file" << endl;
         return "";
+    }
 
     int BlockIdx = InodeMemory[InodeIdx].BlockID;
     FileBlock *Block = reinterpret_cast<FileBlock *>(&BlockMemory[BlockIdx]);
@@ -276,12 +304,16 @@ void FileSystem::WriteFile(string path, string content)
 
     vector<string> epath = ProcessDir(path);
     int _InodeIdx = SearchParentInode(epath);
-    if (_InodeIdx == 0 && epath.size() != 1)
+    if (_InodeIdx == 0 && epath.size() != 1){
+        std::cout << "Invalid path" << endl;
         return;
+    }
 
     int InodeIdx = GetInodeFromDir(epath.back(), _InodeIdx);
-    if (InodeIdx == 0 || InodeMemory[InodeIdx].bIsDir)
+    if (InodeIdx == 0 || InodeMemory[InodeIdx].bIsDir){
+        std::cout << "It is not a file" << endl;
         return;
+    }
 
     int BlockIdx = InodeMemory[InodeIdx].BlockID;
     FileBlock *Block = reinterpret_cast<FileBlock *>(&BlockMemory[BlockIdx]);
