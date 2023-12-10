@@ -9,7 +9,7 @@
 struct Inode
 {
     int BlockID;
-    bool bIsDir;
+    bool type;
 };
 
 struct DirectoryBlock

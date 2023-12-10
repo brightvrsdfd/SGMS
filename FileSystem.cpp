@@ -1,5 +1,4 @@
 #include "FileSystem.h"
-#include <sstream>
 #include <string.h>
 #include <iostream>
 
@@ -14,7 +13,7 @@ FileSystem::FileSystem()
 
     memset(InodeMemory, 0, sizeof(Inode) * INODE_NUMBER);
     memset(BlockMemory, 0, sizeof(FileBlock) * BLOCK_NUMBER);
-    InodeMemory[0].bIsDir = true;
+    InodeMemory[0].type = true;
 }
 
 vector<string> FileSystem::ProcessDir(string path)
@@ -35,9 +34,9 @@ vector<string> FileSystem::ProcessDir(string path)
     return result;
 }
 
-int FileSystem::GetInodeFromDir(string name, int curDirInodeIdx)
+int FileSystem::Dir2InodeID(string name, int curDirInodeIdx)
 {
-    if (InodeMemory[curDirInodeIdx].bIsDir == false)
+    if (InodeMemory[curDirInodeIdx].type == false)
         return 0;
 
     int curBlockIdx = InodeMemory[curDirInodeIdx].BlockID;
@@ -55,21 +54,21 @@ int FileSystem::GetInodeFromDir(string name, int curDirInodeIdx)
     return 0;
 }
 
-int FileSystem::SearchParentInode(vector<string> epath)
+int FileSystem::Path2InodeID(vector<string> pathVec)
 {
     int curDir = 0;
-    for (int i = 0; i < epath.size() - 1; i++)
+    for (int i = 0; i < pathVec.size() - 1; i++)
     {
-        curDir = GetInodeFromDir(epath[i], curDir);
+        curDir = Dir2InodeID(pathVec[i], curDir);
         if (curDir == 0)
             return 0;
     }
     return curDir;
 }
 
-void FileSystem::Delete_k2(int InodeIdx)
+void FileSystem::DeleteByInode(int InodeIdx)
 {
-    if (InodeMemory[InodeIdx].bIsDir)
+    if (InodeMemory[InodeIdx].type)
     {
         // DeleteDir_k2(InodeIdx);
         // Del Dir
@@ -80,7 +79,7 @@ void FileSystem::Delete_k2(int InodeIdx)
         {
             if (Block->InodeID[i])
             {
-                Delete_k2(Block->InodeID[i]);
+                DeleteByInode(Block->InodeID[i]);
             }
         }
 
@@ -101,42 +100,14 @@ void FileSystem::Delete_k2(int InodeIdx)
     }
 }
 
-void FileSystem::DeleteDir_k2(int InodeIdx)
+int FileSystem::Create(string path, bool type)
 {
-    int BlockIdx = InodeMemory[InodeIdx].BlockID;
-    DirectoryBlock *Block = reinterpret_cast<DirectoryBlock *>(&BlockMemory[BlockIdx]);
-
-    for (int i = 0; i < ENTRY_NUMBER; i++)
-    {
-        if (Block->InodeID[i])
-        {
-            Delete_k2(Block->InodeID[i]);
-        }
-    }
-
-    memset(&InodeMemory[InodeIdx], 0, sizeof(Inode));
-    memset(&BlockMemory[BlockIdx], 0, sizeof(DirectoryBlock));
-    bIsInodeFree.set(InodeIdx);
-    bIsBlockFree.set(BlockIdx);
-}
-
-void FileSystem::DeleteFile_k2(int InodeIdx)
-{
-    int BlockIdx = InodeMemory[InodeIdx].BlockID;
-    memset(&InodeMemory[InodeIdx], 0, sizeof(Inode));
-    memset(&BlockMemory[BlockIdx], 0, sizeof(FileBlock));
-    bIsInodeFree.set(InodeIdx);
-    bIsBlockFree.set(BlockIdx);
-}
-
-int FileSystem::Create_k2(string path, bool bIsDir)
-{
-    vector<string> epath = ProcessDir(path);
-    if (epath.back().size() >= MAX_FILENAME_LENGTH || epath.back().size() == 0)
+    vector<string> pathVec = ProcessDir(path);
+    if (pathVec.back().size() >= MAX_FILENAME_LENGTH || pathVec.back().size() == 0)
         return 0;
 
-    int InodeIdx = SearchParentInode(epath);
-    if (InodeIdx == 0 && epath.size() != 1)
+    int InodeIdx = Path2InodeID(pathVec);
+    if (InodeIdx == 0 && pathVec.size() != 1)
         return 0;
 
     int BlockIdx = InodeMemory[InodeIdx].BlockID;
@@ -145,7 +116,7 @@ int FileSystem::Create_k2(string path, bool bIsDir)
     for (int i = 0; i < ENTRY_NUMBER; i++)
     {
         string fileName = string(Block->FileName[i]);
-        if (fileName == epath.back() && Block->InodeID[i])
+        if (fileName == pathVec.back() && Block->InodeID[i])
         {
             return 0;
         }
@@ -161,13 +132,13 @@ int FileSystem::Create_k2(string path, bool bIsDir)
         if (Block->InodeID[i] == 0)
         {
             Block->InodeID[i] = NewInodeIdx;
-            strcpy(Block->FileName[i], epath.back().data());
+            strcpy(Block->FileName[i], pathVec.back().data());
 
             bIsInodeFree.reset(NewInodeIdx);
             bIsBlockFree.reset(NewBlockIdx);
 
             Inode &NewInode = InodeMemory[NewInodeIdx];
-            NewInode.bIsDir = bIsDir;
+            NewInode.type = type;
             NewInode.BlockID = NewBlockIdx;
 
             return NewInodeIdx;
@@ -179,33 +150,33 @@ int FileSystem::Create_k2(string path, bool bIsDir)
 
 void FileSystem::CreateDirectory(string path)
 {
-    Create_k2(path, true);
+    Create(path, true);
 }
 
 void FileSystem::CreateFile(string path)
 {
-    Create_k2(path, false);
+    Create(path, false);
 }
 
 void FileSystem::Delete(string path)
 {
-    vector<string> epath = ProcessDir(path);
-    int InodeIdx = SearchParentInode(epath);
-    if (InodeIdx == 0 && epath.size() != 1)
+    vector<string> pathVec = ProcessDir(path);
+    int InodeIdx = Path2InodeID(pathVec);
+    if (InodeIdx == 0 && pathVec.size() != 1)
         return;
 
     int BlockIdx = InodeMemory[InodeIdx].BlockID;
     DirectoryBlock *Block = reinterpret_cast<DirectoryBlock *>(&BlockMemory[BlockIdx]);
 
-    int InodeIdx2 = GetInodeFromDir(epath.back(), InodeIdx);
+    int InodeIdx2 = Dir2InodeID(pathVec.back(), InodeIdx);
     if (InodeIdx2 == 0)
         return;
 
-    Delete_k2(InodeIdx2);
+    DeleteByInode(InodeIdx2);
     for (int i = 0; i < ENTRY_NUMBER; i++)
     {
         string fileName = string(Block->FileName[i]);
-        if (fileName == epath.back() && Block->InodeID[i])
+        if (fileName == pathVec.back() && Block->InodeID[i])
         {
             Block->InodeID[i] = 0;
             memset(&(Block->FileName[i]), 0, MAX_FILENAME_LENGTH);
@@ -216,21 +187,21 @@ void FileSystem::Delete(string path)
 vector<string> FileSystem::List(string path)
 {
     vector<string> res;
-    vector<string> epath = ProcessDir(path);
+    vector<string> pathVec = ProcessDir(path);
 
     int BlockIdx;
-    if (epath.size() == 0)
+    if (pathVec.size() == 0)
     {
         BlockIdx = 0;
     }
     else
     {
-        int _InodeIdx = SearchParentInode(epath);
-        if (_InodeIdx == 0 && epath.size() != 1)
+        int _InodeIdx = Path2InodeID(pathVec);
+        if (_InodeIdx == 0 && pathVec.size() != 1)
             return res;
 
-        int InodeIdx = GetInodeFromDir(epath.back(), _InodeIdx);
-        if (InodeIdx == 0 || InodeMemory[InodeIdx].bIsDir == false)
+        int InodeIdx = Dir2InodeID(pathVec.back(), _InodeIdx);
+        if (InodeIdx == 0 || InodeMemory[InodeIdx].type == false)
             return res;
 
         BlockIdx = InodeMemory[InodeIdx].BlockID;
@@ -266,16 +237,16 @@ void FileSystem::ListTree(string path){
 void FileSystem::Copy(string sourcePath, string targetDir)
 {
     vector<string> srcPath = ProcessDir(sourcePath);
-    int _InodeIdx = SearchParentInode(srcPath);
+    int _InodeIdx = Path2InodeID(srcPath);
     if (_InodeIdx == 0 && srcPath.size() != 1)
         return;
 
-    int InodeIdx = GetInodeFromDir(srcPath.back(), _InodeIdx);
+    int InodeIdx = Dir2InodeID(srcPath.back(), _InodeIdx);
     if (InodeIdx == 0)
         return;
 
     string newPath = targetDir + "/" + srcPath.back();
-    if (InodeMemory[InodeIdx].bIsDir)
+    if (InodeMemory[InodeIdx].type)
     {
         CreateDirectory(newPath);
         vector<string> list = List(sourcePath);
@@ -292,24 +263,22 @@ void FileSystem::Copy(string sourcePath, string targetDir)
 
 string FileSystem::ReadFile(string path)
 {
-    vector<string> epath = ProcessDir(path);
-    int _InodeIdx = SearchParentInode(epath);
-    if (_InodeIdx == 0 && epath.size() != 1){
+    vector<string> pathVec = ProcessDir(path);
+    int _InodeIdx = Path2InodeID(pathVec);
+    if (_InodeIdx == 0 && pathVec.size() != 1){
         std::cout << "Invalid path" << endl;
         return "";
     }
         
 
-    int InodeIdx = GetInodeFromDir(epath.back(), _InodeIdx);
-    if (InodeIdx == 0 || InodeMemory[InodeIdx].bIsDir){
+    int InodeIdx = Dir2InodeID(pathVec.back(), _InodeIdx);
+    if (InodeIdx == 0 || InodeMemory[InodeIdx].type){
         std::cout << "It is not a file" << endl;
         return "";
     }
 
     int BlockIdx = InodeMemory[InodeIdx].BlockID;
     FileBlock *Block = reinterpret_cast<FileBlock *>(&BlockMemory[BlockIdx]);
-
-    cout << "in the function ReadFile" << string(Block->Content) << endl ;
 
     return string(Block->Content);
 }
@@ -319,15 +288,15 @@ void FileSystem::WriteFile(string path, string content)
     if (content.size() >= BLOCK_SIZE)
         return;
 
-    vector<string> epath = ProcessDir(path);
-    int _InodeIdx = SearchParentInode(epath);
-    if (_InodeIdx == 0 && epath.size() != 1){
+    vector<string> pathVec = ProcessDir(path);
+    int _InodeIdx = Path2InodeID(pathVec);
+    if (_InodeIdx == 0 && pathVec.size() != 1){
         std::cout << "Invalid path" << endl;
         return;
     }
 
-    int InodeIdx = GetInodeFromDir(epath.back(), _InodeIdx);
-    if (InodeIdx == 0 || InodeMemory[InodeIdx].bIsDir){
+    int InodeIdx = Dir2InodeID(pathVec.back(), _InodeIdx);
+    if (InodeIdx == 0 || InodeMemory[InodeIdx].type){
         std::cout << "It is not a file" << endl;
         return;
     }
@@ -340,8 +309,8 @@ void FileSystem::WriteFile(string path, string content)
 
 string FileSystem::GetFileName(string path)
 {
-    vector<string> epath = ProcessDir(path);
-    if (epath.size() == 0)
+    vector<string> pathVec = ProcessDir(path);
+    if (pathVec.size() == 0)
         return "";
-    return epath.back();
+    return pathVec.back();
 }

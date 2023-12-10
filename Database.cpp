@@ -31,7 +31,7 @@ string Database::PrintCourse()
     string res = "There are these courses:\n";
     for (int i = 0; i < list.size(); i++)
     {
-        res = res + list[i] + "\n";
+        res = res + "    " + list[i] + "\n";
     }
     return res;
 }
@@ -47,7 +47,7 @@ string Database::ListUser()
     string res = "There are these users in this system:\n";
     for (int i = 0; i < list.size(); i++)
     {
-        res = res + list[i] + "\n";
+        res = res + "    " + list[i] + "\n";
     }
     return res;
 }
@@ -104,7 +104,7 @@ string Database::PrintSubmittedHomework(string courseName, string assignment)
     string res = "There are these submitted homework:\n";
     for (int i = 0; i < list.size(); i++)
     {
-        res = res + list[i] + "\n";
+        res = res + "    " + list[i] + "\n";
     }
     return res;
 }
@@ -133,7 +133,7 @@ string Database::PrintAssignmentTitle(string courseName)
     string res = "There are these assignments:\n";
     for (int i = 0; i < list.size(); i++)
     {
-        res = res + list[i] + "\n";
+        res = res + "    " + list[i] + "\n";
     }
     return res;
 }

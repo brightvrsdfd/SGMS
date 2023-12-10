@@ -13,14 +13,11 @@ public:
 private:
     std::vector<std::string> ProcessDir(std::string path);
 
-    int GetInodeFromDir(std::string name, int curDirInodeIdx);
-    int SearchParentInode(std::vector<std::string> epath);
+    int Dir2InodeID(std::string name, int DirInodeID);
+    int Path2InodeID(std::vector<std::string> pathVec);
 
-    void Delete_k2(int InodeIdx);
-    void DeleteDir_k2(int InodeIdx);
-    void DeleteFile_k2(int InodeIdx);
-
-    int Create_k2(std::string path, bool bIsDir);
+    void DeleteByInode(int InodeIdx);
+    int Create(std::string path, bool type);
 
 public:
     void CreateDirectory(std::string path);
