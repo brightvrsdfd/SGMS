@@ -7,17 +7,17 @@ Database::Database()
 {
     fileSys.CreateDirectory("User");
     fileSys.CreateDirectory("Course");
-    Database::CreateUser("root","root", 1);
+    // Database::CreateUser("root","root", 1);
 }
 
-int Database::CheckLogin(string username, string password)
+string Database::CheckLogin(string username, string password)
 {
     string role = fileSys.ReadFile("User/" + username + "/" + password);
 
-    if (role == "")
-        return ComState::ERROR;
+    // if (role == "")
+    //     return ComState::ERROR;
 
-    return ComState(role[0]);
+    return role;
 }
 
 string Database::PrintCourse()
@@ -36,15 +36,15 @@ string Database::PrintCourse()
     return res;
 }
 
-string Database::PrintMember()
+string Database::ListUser()
 {
     vector<string> list = fileSys.List("User");
     if (list.size() == 0)
     {
-        return "There is no member.\n";
+        return "There is no user in the system.\n";
     }
 
-    string res = "There are these members:\n";
+    string res = "There are these users in this system:\n";
     for (int i = 0; i < list.size(); i++)
     {
         res = res + list[i] + "\n";
@@ -52,7 +52,7 @@ string Database::PrintMember()
     return res;
 }
 
-void Database::CreateUser(string username, string password, int role)
+void Database::CreateUser(string username, string password, string role)
 {
     string path = "User/" + username;
     fileSys.CreateDirectory(path);
@@ -60,7 +60,9 @@ void Database::CreateUser(string username, string password, int role)
     path = path + "/" + password;
     fileSys.CreateFile(path);
 
-    fileSys.WriteFile(path, string(1, char(role)));
+    fileSys.WriteFile(path, role);
+
+    // fileSys.WriteFile(path, string(1, char(role)));
 }
 
 void Database::DeleteUser(string username)

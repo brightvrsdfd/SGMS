@@ -41,12 +41,12 @@ class Database
 public:
     Database();
 
-    int CheckLogin(std::string username, std::string password);
+    std::string CheckLogin(std::string username, std::string password);
 
     std::string PrintCourse();
-    std::string PrintMember();
+    std::string ListUser();
 
-    void CreateUser(std::string username, std::string password, int role);
+    void CreateUser(std::string username, std::string password, std::string role);
     void DeleteUser(std::string username);
 
     void CreateCourse(std::string courseName);

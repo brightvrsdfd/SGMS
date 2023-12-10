@@ -309,6 +309,8 @@ string FileSystem::ReadFile(string path)
     int BlockIdx = InodeMemory[InodeIdx].BlockID;
     FileBlock *Block = reinterpret_cast<FileBlock *>(&BlockMemory[BlockIdx]);
 
+    cout << "in the function ReadFile" << string(Block->Content) << endl ;
+
     return string(Block->Content);
 }
 
@@ -330,7 +332,10 @@ void FileSystem::WriteFile(string path, string content)
         return;
     }
 
- 
+    int BlockIdx = InodeMemory[InodeIdx].BlockID;
+    FileBlock *Block = reinterpret_cast<FileBlock *>(&BlockMemory[BlockIdx]);
+
+    strcpy(Block->Content, content.data());
 }
 
 string FileSystem::GetFileName(string path)
