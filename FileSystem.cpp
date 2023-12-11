@@ -184,7 +184,7 @@ void FileSystem::Delete(string path)
     }
 }
 
-vector<string> FileSystem::List(string path)
+vector<string> FileSystem::getListVector(string path)
 {
     vector<string> res;
     vector<string> pathVec = pathSplit(path);
@@ -219,19 +219,37 @@ vector<string> FileSystem::List(string path)
     return res;
 }
 
-void FileSystem::ListTree(string path){
+string FileSystem::getList(string path)
+{
+    vector<string> list = getListVector(path);
+    string listString = "";
+    for (int i = 0; i < list.size(); i++)
+    {
+       listString = listString + list[i] + "\n";
+    }
+
+    return listString;
+}
+
+string FileSystem::getListTree(std::string path){
     static int level = 0;
-    vector<string> list = FileSystem::List(path);
+    string listString = "";
+    vector<string> list = getListVector(path);
     for (int i = 0; i < list.size(); i++)
     {
         for (int j = 0; j < level; j++){
-            cout << "  ";
+            listString = listString + "----";
         }
-        cout << list[i] << endl;
+        listString = listString + list[i] + "\n";
         level++;
-        ListTree(path + "/" + list[i]);
+        string innerList = getListTree(path + "/" + list[i]);
+        if (innerList != ""){
+            listString = listString + innerList;
+        }
+        listString = listString + "\n";
         level--;
     }
+    return listString;
 }
 
 void FileSystem::Copy(string sourcePath, string targetDir)
@@ -247,19 +265,19 @@ void FileSystem::Copy(string sourcePath, string targetDir)
     if (InodeMemory[InodeIdx].type)
     {
         CreateDirectory(newPath);
-        vector<string> list = List(sourcePath);
+        vector<string> list = getListVector(sourcePath);
         for (int i = 0; i < list.size(); i++)
             Copy(sourcePath + "/" + list[i], newPath);
     }
     else
     {
         CreateFile(newPath);
-        string content = ReadFile(sourcePath);
+        string content = getFileContent(sourcePath);
         WriteFile(newPath, content);
     }
 }
 
-string FileSystem::ReadFile(string path)
+string FileSystem::getFileContent(string path)
 {
     vector<string> pathVec = pathSplit(path);
     int _InodeIdx = Path2InodeID(pathVec);
@@ -305,7 +323,7 @@ void FileSystem::WriteFile(string path, string content)
     strcpy(Block->Content, content.data());
 }
 
-string FileSystem::GetFileName(string path)
+string FileSystem::getFileName(string path)
 {
     vector<string> pathVec = pathSplit(path);
     if (pathVec.size() == 0)

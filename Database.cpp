@@ -10,9 +10,9 @@ Database::Database()
     // Database::CreateUser("root","root", 1);
 }
 
-string Database::CheckLogin(string username, string password)
+string Database::getLoginStatus(string username, string password)
 {
-    string role = fileSys.ReadFile("User/" + username + "/" + password);
+    string role = fileSys.getFileContent("User/" + username + "/" + password);
 
     // if (role == "")
     //     return ComState::ERROR;
@@ -22,7 +22,7 @@ string Database::CheckLogin(string username, string password)
 
 string Database::PrintCourse()
 {
-    vector<string> list = fileSys.List("Course");
+    vector<string> list = fileSys.getListVector("Course");
     if (list.size() == 0)
     {
         return "There is no course.\n";
@@ -38,7 +38,7 @@ string Database::PrintCourse()
 
 string Database::ListUser()
 {
-    vector<string> list = fileSys.List("User");
+    vector<string> list = fileSys.getListVector("User");
     if (list.size() == 0)
     {
         return "There is no user in the system.\n";
@@ -92,10 +92,10 @@ void Database::CreateAssignment(string courseName, string assignment, string con
     fileSys.WriteFile(path + "/Content", content);
 }
 
-string Database::PrintSubmittedHomework(string courseName, string assignment)
+string Database::getHomworkTitles(string courseName, string assignment)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework";
-    vector<string> list = fileSys.List(path);
+    vector<string> list = fileSys.getListVector(path);
     if (list.size() == 0)
     {
         return "There is no submitted homework.\n";
@@ -109,10 +109,10 @@ string Database::PrintSubmittedHomework(string courseName, string assignment)
     return res;
 }
 
-string Database::ReceiveHomework(string courseName, string assignment, string title)
+string Database::getHomeworkContent(string courseName, string assignment, string title)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework/" + title + "/Content";
-    return fileSys.ReadFile(path);
+    return fileSys.getFileContent(path);
 }
 
 void Database::MarkHomework(string courseName, string assignment, string title, string score)
@@ -121,10 +121,10 @@ void Database::MarkHomework(string courseName, string assignment, string title, 
     fileSys.WriteFile(path, score);
 }
 
-string Database::PrintAssignmentTitle(string courseName)
+string Database::getAssignmentTitles(string courseName)
 {
     string path = "Course/" + courseName;
-    vector<string> list = fileSys.List(path);
+    vector<string> list = fileSys.getListVector(path);
     if (list.size() == 0)
     {
         return "There is no assignment.\n";
@@ -138,25 +138,26 @@ string Database::PrintAssignmentTitle(string courseName)
     return res;
 }
 
-string Database::PrintAssignmentContent(string courseName, string assignment)
+string Database::getAssignmentContent(string courseName, string assignment)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Content";
-    return fileSys.ReadFile(path);
+    return fileSys.getFileContent(path);
 }
 
-void Database::SubmitHomework(string courseName, string assignment, string title, string content)
+void Database::SubmitAssignment(string courseName, string assignment, string title, string content)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework/" + title;
+    fileSys.Delete(path);
     fileSys.CreateDirectory(path);
     fileSys.CreateFile(path + "/Score");
     fileSys.CreateFile(path + "/Content");
     fileSys.WriteFile(path + "/Content", content);
 }
 
-string Database::PrintScore(string courseName, string assignment, string title)
+string Database::getScoreInCourse(string courseName, string assignment, string title)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework/" + title + "/Score";
-    return fileSys.ReadFile(path);
+    return fileSys.getFileContent(path);
 }
 
 void Database::Backup()

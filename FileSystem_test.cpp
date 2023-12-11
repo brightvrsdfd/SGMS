@@ -66,12 +66,9 @@ int main()
             cout << "Input path:";
             string path;
             cin >> path;
-            vector<string> list = fileSys.List(path);
+            vector<string> list = fileSys.getListVector(path);
             cout << "Directories and files:" << endl;
-            for (int i = 0; i < list.size(); i++)
-            {
-                cout << list[i] << endl;
-            }
+            cout << fileSys.getList(path) << endl;
             cout << "\nDirectories and files are shown as above." << endl;
             cout << "--------------------------------------------------------------------------------" << endl;
         }
@@ -81,7 +78,7 @@ int main()
             string path;
             cin >> path;
             cout << "Directories and files:" << endl;
-            fileSys.ListTree(path);
+            cout << fileSys.getListTree(path) << endl;
             cout << "\nDirectories and files are shown as above." << endl;
             cout << "--------------------------------------------------------------------------------" << endl;
         }
@@ -91,7 +88,7 @@ int main()
             string path;
             cin >> path;
             cout << "File content is:\n"
-                 << fileSys.ReadFile(path) << endl;
+                 << fileSys.getFileContent(path) << endl;
             cout << "--------------------------------------------------------------------------------" << endl;
         }
         else if (command == "7")

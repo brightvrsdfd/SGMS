@@ -37,7 +37,7 @@ int main(){
                 cin  >> username;
                 cout << "Password:";
                 cin  >> password;
-                role = database.CheckLogin(username, password);
+                role = database.getLoginStatus(username, password);
                 
                 if (role == "1") {
                     cout << "--------------------------------------------------------------------------------" << endl;
@@ -312,7 +312,7 @@ int main(){
                         cin>>course_name;
                         cout<<"assignment name:"<<endl;
                         cin>>assignment;
-                        cout << database.PrintAssignmentContent(course_name,assignment) << endl;
+                        cout << database.getAssignmentContent(course_name,assignment) << endl;
                         cout << "--------------------------------------------------------------------------------" << endl;
                     }
                 }
@@ -329,7 +329,7 @@ int main(){
                         string course_name;
                         cout<<"Course name:"<<endl;
                         cin>>course_name;
-                        cout<<database.PrintAssignmentTitle(course_name)<<endl;
+                        cout<<database.getAssignmentTitles(course_name)<<endl;
                         cout << "--------------------------------------------------------------------------------" << endl;
                     }
                 }
@@ -348,7 +348,7 @@ int main(){
                         cin>>course_name;
                         cout<<"assignment name:"<<endl;
                         cin>>assignment;
-                        cout<<database.PrintSubmittedHomework(course_name,assignment)<<endl;
+                        cout<<database.getHomworkTitles(course_name,assignment)<<endl;
                         cout << "--------------------------------------------------------------------------------" << endl;
                     }
                 }
@@ -369,7 +369,7 @@ int main(){
                         cin>>assignment;
                         cout<<"Title:"<<endl;
                         cin>>title;
-                        cout<<database.PrintScore(course_name,assignment,title)<<endl;
+                        cout<<database.getScoreInCourse(course_name,assignment,title)<<endl;
                         cout << "--------------------------------------------------------------------------------" << endl;
                     }
                 }
@@ -390,7 +390,7 @@ int main(){
                         cin>>assignment;
                         cout<<"Title:"<<endl;
                         cin>>title;
-                        cout<<database.ReceiveHomework(course_name,assignment,title)<<endl;
+                        cout<<database.getHomeworkContent(course_name,assignment,title)<<endl;
                         cout << "--------------------------------------------------------------------------------" << endl;
                     }
                 }
@@ -448,7 +448,7 @@ int main(){
                         cin>>title;
                         cout<<"Please enter the content of your homework:"<<endl;
                         cin>>content;
-                        database.SubmitHomework(course_name,assignment,title,content);
+                        database.SubmitAssignment(course_name,assignment,title,content);
                         cout<<"Homework submitted"<<endl;
                         cout << "--------------------------------------------------------------------------------" << endl;
                     }

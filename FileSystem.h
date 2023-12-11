@@ -24,15 +24,16 @@ public:
     void CreateFile(std::string path);
     void Delete(std::string path);
 
-    std::vector<std::string> List(std::string path);
-    void ListTree(std::string path);
+    std::vector<std::string> getListVector(std::string path);
+    std::string getList(std::string path);
+    std::string getListTree(std::string path);
 
     void Copy(std::string sourcePath, std::string targetDir);
 
-    std::string ReadFile(std::string path);
+    std::string getFileContent(std::string path);
     void WriteFile(std::string path, std::string content);
 
-    std::string GetFileName(std::string path);
+    std::string getFileName(std::string path);
 
 private:
     Inode InodeMemory[INODE_NUMBER];
