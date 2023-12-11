@@ -16,7 +16,7 @@ FileSystem::FileSystem()
     InodeMemory[0].type = true;
 }
 
-vector<string> FileSystem::ProcessDir(string path)
+vector<string> FileSystem::pathSplit(string path)
 {
     vector<string> result;
     size_t start = path.find_first_not_of('/');
@@ -102,7 +102,7 @@ void FileSystem::DeleteByInode(int InodeIdx)
 
 int FileSystem::Create(string path, bool type)
 {
-    vector<string> pathVec = ProcessDir(path);
+    vector<string> pathVec = pathSplit(path);
     if (pathVec.back().size() >= MAX_FILENAME_LENGTH || pathVec.back().size() == 0)
         return 0;
 
@@ -160,7 +160,7 @@ void FileSystem::CreateFile(string path)
 
 void FileSystem::Delete(string path)
 {
-    vector<string> pathVec = ProcessDir(path);
+    vector<string> pathVec = pathSplit(path);
     int InodeIdx = Path2InodeID(pathVec);
     if (InodeIdx == 0 && pathVec.size() != 1)
         return;
@@ -187,7 +187,7 @@ void FileSystem::Delete(string path)
 vector<string> FileSystem::List(string path)
 {
     vector<string> res;
-    vector<string> pathVec = ProcessDir(path);
+    vector<string> pathVec = pathSplit(path);
 
     int BlockIdx;
     if (pathVec.size() == 0)
@@ -236,14 +236,12 @@ void FileSystem::ListTree(string path){
 
 void FileSystem::Copy(string sourcePath, string targetDir)
 {
-    vector<string> srcPath = ProcessDir(sourcePath);
+    vector<string> srcPath = pathSplit(sourcePath);
     int _InodeIdx = Path2InodeID(srcPath);
-    if (_InodeIdx == 0 && srcPath.size() != 1)
-        return;
+    if (_InodeIdx == 0 && srcPath.size() != 1) return;
 
     int InodeIdx = Dir2InodeID(srcPath.back(), _InodeIdx);
-    if (InodeIdx == 0)
-        return;
+    if (InodeIdx == 0) return;
 
     string newPath = targetDir + "/" + srcPath.back();
     if (InodeMemory[InodeIdx].type)
@@ -263,7 +261,7 @@ void FileSystem::Copy(string sourcePath, string targetDir)
 
 string FileSystem::ReadFile(string path)
 {
-    vector<string> pathVec = ProcessDir(path);
+    vector<string> pathVec = pathSplit(path);
     int _InodeIdx = Path2InodeID(pathVec);
     if (_InodeIdx == 0 && pathVec.size() != 1){
         std::cout << "Invalid path" << endl;
@@ -288,7 +286,7 @@ void FileSystem::WriteFile(string path, string content)
     if (content.size() >= BLOCK_SIZE)
         return;
 
-    vector<string> pathVec = ProcessDir(path);
+    vector<string> pathVec = pathSplit(path);
     int _InodeIdx = Path2InodeID(pathVec);
     if (_InodeIdx == 0 && pathVec.size() != 1){
         std::cout << "Invalid path" << endl;
@@ -309,7 +307,7 @@ void FileSystem::WriteFile(string path, string content)
 
 string FileSystem::GetFileName(string path)
 {
-    vector<string> pathVec = ProcessDir(path);
+    vector<string> pathVec = pathSplit(path);
     if (pathVec.size() == 0)
         return "";
     return pathVec.back();

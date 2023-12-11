@@ -11,7 +11,7 @@ public:
     FileSystem();
 
 private:
-    std::vector<std::string> ProcessDir(std::string path);
+    std::vector<std::string> pathSplit(std::string path);
 
     int Dir2InodeID(std::string name, int DirInodeID);
     int Path2InodeID(std::vector<std::string> pathVec);
