@@ -148,7 +148,7 @@ int FileSystem::Create(string path, bool type)
     return 0;
 }
 
-void FileSystem::CreateDirectory(string path)
+void FileSystem::CreateDir(string path)
 {
     Create(path, true);
 }
@@ -264,7 +264,7 @@ void FileSystem::Copy(string sourcePath, string targetDir)
     string newPath = targetDir + "/" + srcPath.back();
     if (InodeMemory[InodeIdx].type)
     {
-        CreateDirectory(newPath);
+        CreateDir(newPath);
         vector<string> list = getListVector(sourcePath);
         for (int i = 0; i < list.size(); i++)
             Copy(sourcePath + "/" + list[i], newPath);
@@ -272,12 +272,12 @@ void FileSystem::Copy(string sourcePath, string targetDir)
     else
     {
         CreateFile(newPath);
-        string content = getFileContent(sourcePath);
+        string content = getFileCont(sourcePath);
         WriteFile(newPath, content);
     }
 }
 
-string FileSystem::getFileContent(string path)
+string FileSystem::getFileCont(string path)
 {
     vector<string> pathVec = pathSplit(path);
     int _InodeIdx = Path2InodeID(pathVec);

@@ -39,7 +39,7 @@ int main()
             cout << "Input path:";
             string path;
             cin >> path;
-            fileSys.CreateDirectory(path);
+            fileSys.CreateDir(path);
             cout << "\"" << path << "\" is created." << endl;
             cout << "--------------------------------------------------------------------------------" << endl;
         }
@@ -88,7 +88,7 @@ int main()
             string path;
             cin >> path;
             cout << "File content is:\n"
-                 << fileSys.getFileContent(path) << endl;
+                 << fileSys.getFileCont(path) << endl;
             cout << "--------------------------------------------------------------------------------" << endl;
         }
         else if (command == "7")

@@ -20,7 +20,7 @@ private:
     int Create(std::string path, bool type);
 
 public:
-    void CreateDirectory(std::string path);
+    void CreateDir(std::string path);
     void CreateFile(std::string path);
     void Delete(std::string path);
 
@@ -28,12 +28,11 @@ public:
     std::string getList(std::string path);
     std::string getListTree(std::string path);
 
-    void Copy(std::string sourcePath, std::string targetDir);
-
-    std::string getFileContent(std::string path);
+    std::string getFileCont(std::string path);
+    std::string getFileName(std::string path);
     void WriteFile(std::string path, std::string content);
 
-    std::string getFileName(std::string path);
+    void Copy(std::string sourcePath, std::string targetDir);
 
 private:
     Inode InodeMemory[INODE_NUMBER];
