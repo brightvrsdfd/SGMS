@@ -35,10 +35,10 @@ File Structure:
     ...
 
 */
-class Database
+class TeachingSystem
 {
 public:
-    Database();
+    TeachingSystem();
 
     std::string getLoginStatus(std::string username, std::string password);
 

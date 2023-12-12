@@ -2,7 +2,7 @@
 #include "Database.h"
 using namespace std;
 
-Database database;
+TeachingSystem database;
 
 int main(){
     

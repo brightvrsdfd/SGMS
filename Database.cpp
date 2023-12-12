@@ -3,14 +3,14 @@
 
 using namespace std;
 
-Database::Database()
+TeachingSystem::TeachingSystem()
 {
     fileSys.CreateDir("User");
     fileSys.CreateDir("Course");
-    // Database::CreateUser("root","root", 1);
+    // TeachingSystem::CreateUser("root","root", 1);
 }
 
-string Database::getLoginStatus(string username, string password)
+string TeachingSystem::getLoginStatus(string username, string password)
 {
     string role = fileSys.getFileCont("User/" + username + "/" + password);
 
@@ -20,7 +20,7 @@ string Database::getLoginStatus(string username, string password)
     return role;
 }
 
-string Database::PrintCourse()
+string TeachingSystem::PrintCourse()
 {
     vector<string> list = fileSys.getListVector("Course");
     if (list.size() == 0)
@@ -36,7 +36,7 @@ string Database::PrintCourse()
     return res;
 }
 
-string Database::ListUser()
+string TeachingSystem::ListUser()
 {
     vector<string> list = fileSys.getListVector("User");
     if (list.size() == 0)
@@ -52,7 +52,7 @@ string Database::ListUser()
     return res;
 }
 
-void Database::CreateUser(string username, string password, string role)
+void TeachingSystem::CreateUser(string username, string password, string role)
 {
     string path = "User/" + username;
     fileSys.CreateDir(path);
@@ -65,25 +65,25 @@ void Database::CreateUser(string username, string password, string role)
     // fileSys.WriteFile(path, string(1, char(role)));
 }
 
-void Database::DeleteUser(string username)
+void TeachingSystem::DeleteUser(string username)
 {
     string path = "User/" + username;
     fileSys.Delete(path);
 }
 
-void Database::CreateCourse(string courseName)
+void TeachingSystem::CreateCourse(string courseName)
 {
     string path = "Course/" + courseName;
     fileSys.CreateDir(path);
 }
 
-void Database::DeleteCourse(string courseName)
+void TeachingSystem::DeleteCourse(string courseName)
 {
     string path = "Course/" + courseName;
     fileSys.Delete(path);
 }
 
-void Database::CreateAssignment(string courseName, string assignment, string content)
+void TeachingSystem::CreateAssignment(string courseName, string assignment, string content)
 {
     string path = "Course/" + courseName + "/" + assignment;
     fileSys.CreateDir(path);
@@ -92,7 +92,7 @@ void Database::CreateAssignment(string courseName, string assignment, string con
     fileSys.WriteFile(path + "/Content", content);
 }
 
-string Database::getHomworkTitles(string courseName, string assignment)
+string TeachingSystem::getHomworkTitles(string courseName, string assignment)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework";
     vector<string> list = fileSys.getListVector(path);
@@ -109,19 +109,19 @@ string Database::getHomworkTitles(string courseName, string assignment)
     return res;
 }
 
-string Database::getHomeworkContent(string courseName, string assignment, string title)
+string TeachingSystem::getHomeworkContent(string courseName, string assignment, string title)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework/" + title + "/Content";
     return fileSys.getFileCont(path);
 }
 
-void Database::MarkHomework(string courseName, string assignment, string title, string score)
+void TeachingSystem::MarkHomework(string courseName, string assignment, string title, string score)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework/" + title + "/Score";
     fileSys.WriteFile(path, score);
 }
 
-string Database::getAssignmentTitles(string courseName)
+string TeachingSystem::getAssignmentTitles(string courseName)
 {
     string path = "Course/" + courseName;
     vector<string> list = fileSys.getListVector(path);
@@ -138,13 +138,13 @@ string Database::getAssignmentTitles(string courseName)
     return res;
 }
 
-string Database::getAssignmentContent(string courseName, string assignment)
+string TeachingSystem::getAssignmentContent(string courseName, string assignment)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Content";
     return fileSys.getFileCont(path);
 }
 
-void Database::SubmitAssignment(string courseName, string assignment, string title, string content)
+void TeachingSystem::SubmitAssignment(string courseName, string assignment, string title, string content)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework/" + title;
     fileSys.Delete(path);
@@ -154,13 +154,13 @@ void Database::SubmitAssignment(string courseName, string assignment, string tit
     fileSys.WriteFile(path + "/Content", content);
 }
 
-string Database::getScoreInCourse(string courseName, string assignment, string title)
+string TeachingSystem::getScoreInCourse(string courseName, string assignment, string title)
 {
     string path = "Course/" + courseName + "/" + assignment + "/Homework/" + title + "/Score";
     return fileSys.getFileCont(path);
 }
 
-void Database::Backup()
+void TeachingSystem::Backup()
 {
     // lock_guard<mutex> lock(courseMutex);
     fileSys.Delete("Backup");
@@ -169,7 +169,7 @@ void Database::Backup()
     fileSys.Copy("Course", "Backup");
 }
 
-void Database::Recovery()
+void TeachingSystem::Recovery()
 {
     // lock_guard<mutex> lock(courseMutex);
     fileSys.Delete("User");

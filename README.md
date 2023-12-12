@@ -1,12 +1,16 @@
 # Student Grade Management System
 Course design of Operation System, SCUT, 2023
 
+![System structure of teaching sys](./Images/TeachingSys.drawio.png)
+
+
+## Group Info
 | Name          | Responsibilities                                       |
 |---------------|--------------------------------------------------------|
-| Haoquan Zhang | System architecture design, file system implementation, permission management implementation, server-client communication |
-| Zhiyu Jiang   | File system extension, backup system implementation, snapshot system implementation |
-| Zhizhan Zhang | I-Node structure design, file system extension, backup system implementation, snapshot system implementation |
-| Xupeng Gu     | File system extension, documentation writing, slideshow design |
+| Haoquan Zhang | System architecture design, `I-Node` implementation, `FileSystem` implementation, `TeachingSystem` implementation|
+| Zhiyu Jiang   | File system extension, documentation writing, slideshow designn |
+| Zhizhan Zhang | `Server-Client` communication implementation |
+| Xupeng Gu     | `FileSystem` terminal UI, `TeachingSystem` terminal UI |
 
 
 ## Basic Requirements
@@ -47,20 +51,3 @@ The system is built on the principles of basic file management and inter-process
 * 利用 socket 套接口进程间通讯。
 * 实现文件快照，相比文件备份，文件快照只记录文件的改动，效率更高，占用空间更小。
 * 现实场景中文件系统包含的其他功能，例如密码登录、密码修改、用户删除、文件所属用户更改、文件所属用户组更改等等，学生可自行设计，言之有理即可。
-
-## 文件系统结构
-
-### Course 结构
-
-变量
-* *string* `course_name`
-* *string* `teacher_name`
-* *string* list of `student_name`
-* *int* list of `final_grade` (ranging from 1-10)
-
-### Assignment 结构
-* *string* `course_name`
-* *string* `teacher_name`
-* *string* `assignment_index`
-* *string* list of `student_name`
-* *int* list of `grade` (ranging from 1-10)
