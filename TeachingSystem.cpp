@@ -20,22 +20,6 @@ string TeachingSystem::getLoginStatus(string username, string password)
     return role;
 }
 
-string TeachingSystem::PrintCourse()
-{
-    vector<string> list = fileSys.getListVector("Course");
-    if (list.size() == 0)
-    {
-        return "There is no course.\n";
-    }
-
-    string res = "There are these courses:\n";
-    for (int i = 0; i < list.size(); i++)
-    {
-        res = res + "    " + list[i] + "\n";
-    }
-    return res;
-}
-
 string TeachingSystem::ListUser()
 {
     vector<string> list = fileSys.getListVector("User");
@@ -50,6 +34,12 @@ string TeachingSystem::ListUser()
         res = res + "    " + list[i] + "\n";
     }
     return res;
+}
+
+string TeachingSystem::ShowAllInfo(){
+    string path = "/";
+    string AllInfo = fileSys.getListTree(path);
+    return AllInfo;
 }
 
 void TeachingSystem::CreateUser(string username, string password, string role)
@@ -139,5 +129,20 @@ std::string TeachingSystem::getSubmissionInfo(std::string teacherName, std::stri
     return subInfo;
 }
 
-void Backup();
-void Recovery();
+void TeachingSystem::Backup()
+{
+    // lock_guard<mutex> lock(courseMutex);
+    fileSys.Delete("Backup");
+    fileSys.CreateDir("Backup");
+    fileSys.Copy("User", "Backup");
+    fileSys.Copy("Course", "Backup");
+}
+
+void TeachingSystem::Recovery()
+{
+    // lock_guard<mutex> lock(courseMutex);
+    fileSys.Delete("User");
+    fileSys.Delete("Course");
+    fileSys.Copy("Backup/User", "");
+    fileSys.Copy("Backup/Course", "");
+}

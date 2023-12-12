@@ -8,8 +8,8 @@ public:
 
     std::string getLoginStatus(std::string username, std::string password);
 
-    std::string PrintCourse();
     std::string ListUser();
+    std::string ShowAllInfo();
 
     void CreateUser(std::string username, std::string password, std::string role);
     void DeleteUser(std::string username);
