@@ -35,5 +35,5 @@ public:
     void Recovery();
 
 private:
-    FileSystem fileSys;
+    FileSystem * fileSys = nullptr;
 };

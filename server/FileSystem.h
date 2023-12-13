@@ -37,6 +37,6 @@ public:
 private:
     Inode InodeMemory[INODE_NUMBER];
     FileBlock BlockMemory[BLOCK_NUMBER];
-    std::bitset<INODE_NUMBER> bIsInodeFree;
-    std::bitset<BLOCK_NUMBER> bIsBlockFree;
+    std::bitset<INODE_NUMBER> inodeFree;
+    std::bitset<BLOCK_NUMBER> blockFree;
 };

@@ -6,10 +6,10 @@ using namespace std;
 
 FileSystem::FileSystem()
 {
-    bIsInodeFree.set();
-    bIsBlockFree.set();
-    bIsInodeFree.reset(0);
-    bIsBlockFree.reset(0);
+    inodeFree.set();
+    blockFree.set();
+    inodeFree.reset(0);
+    blockFree.reset(0);
 
     memset(InodeMemory, 0, sizeof(Inode) * INODE_NUMBER);
     memset(BlockMemory, 0, sizeof(FileBlock) * BLOCK_NUMBER);
@@ -85,8 +85,8 @@ void FileSystem::DeleteByInode(int InodeIdx)
 
         memset(&InodeMemory[InodeIdx], 0, sizeof(Inode));
         memset(&BlockMemory[BlockIdx], 0, sizeof(DirectoryBlock));
-        bIsInodeFree.set(InodeIdx);
-        bIsBlockFree.set(BlockIdx);
+        inodeFree.set(InodeIdx);
+        blockFree.set(BlockIdx);
     }
     else
     {
@@ -95,8 +95,8 @@ void FileSystem::DeleteByInode(int InodeIdx)
         int BlockIdx = InodeMemory[InodeIdx].BlockID;
         memset(&InodeMemory[InodeIdx], 0, sizeof(Inode));
         memset(&BlockMemory[BlockIdx], 0, sizeof(FileBlock));
-        bIsInodeFree.set(InodeIdx);
-        bIsBlockFree.set(BlockIdx);
+        inodeFree.set(InodeIdx);
+        blockFree.set(BlockIdx);
     }
 }
 
@@ -122,8 +122,8 @@ int FileSystem::Create(string path, bool type)
         }
     }
 
-    int NewInodeIdx = bIsInodeFree._Find_first();
-    int NewBlockIdx = bIsBlockFree._Find_first();
+    int NewInodeIdx = inodeFree._Find_first();
+    int NewBlockIdx = blockFree._Find_first();
     if (NewInodeIdx == INODE_NUMBER || NewBlockIdx == BLOCK_NUMBER)
         return 0;
 
@@ -134,8 +134,8 @@ int FileSystem::Create(string path, bool type)
             Block->InodeID[i] = NewInodeIdx;
             strcpy(Block->FileName[i], pathVec.back().data());
 
-            bIsInodeFree.reset(NewInodeIdx);
-            bIsBlockFree.reset(NewBlockIdx);
+            inodeFree.reset(NewInodeIdx);
+            blockFree.reset(NewBlockIdx);
 
             Inode &NewInode = InodeMemory[NewInodeIdx];
             NewInode.type = type;
@@ -233,7 +233,7 @@ string FileSystem::getList(string path)
 
 string FileSystem::getListTree(std::string path){
     static int level = 0;
-    string listString = "";
+    string listString = " ";
     vector<string> list = getListVector(path);
     for (int i = 0; i < list.size(); i++)
     {
