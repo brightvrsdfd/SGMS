@@ -238,7 +238,7 @@ string FileSystem::getListTree(std::string path){
     for (int i = 0; i < list.size(); i++)
     {
         for (int j = 0; j < level; j++){
-            listString = listString + "----";
+            listString = listString + "   |";
         }
         listString = listString + list[i] + "\n";
         level++;
@@ -246,7 +246,7 @@ string FileSystem::getListTree(std::string path){
         if (innerList != ""){
             listString = listString + innerList;
         }
-        listString = listString + "\n";
+        listString = listString;
         level--;
     }
     return listString;

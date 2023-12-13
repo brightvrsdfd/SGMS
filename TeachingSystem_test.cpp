@@ -14,11 +14,17 @@ int main(){
     ts.CreateUser("student1", "student1", "3");
     ts.CreateUser("student2", "student2", "3");
     ts.CreateUser("student3", "student3", "3");
+
     ts.CreateCourse("teacher1", "Computer-Science");
     ts.CreateCourse("teacher1", "Computer-Vision");
+
     ts.CreateCourse("teacher2", "NLP");
     ts.CreateCourse("teacher3", "RL");
+
     ts.CreateAssignment("teacher1", "Computer-Science", "LAB1", "Lab1Content");
+    ts.CreateAssignment("teacher1", "Computer-Science", "LAB2", "Lab2Content");
+    ts.CreateAssignment("teacher2", "NLP", "LAB1", "Lab1Content");
+    ts.CreateAssignment("teacher2", "NLP", "LAB2", "Lab2Content");
 
     while(true)
     {
