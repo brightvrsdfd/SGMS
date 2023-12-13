@@ -30,7 +30,7 @@ The system users are divided into three categories:
 The system is built on the principles of basic file management and inter-process communication in the operating system. It employs the `I-Node` file system type and uses `pipes` for inter-process communication. The system is required to implement the following functionalities:
 
 
-| 操作编号 | 操作描述                    | ADMIN | TEACHER | STUDENT |
+| Num | Actions                    | ADMIN | TEACHER | STUDENT |
 |---------|-----------------------------|-------|---------|---------|
 | 0       | Exit file system            | ✔️    | ✔️      | ✔️      |
 | 1       | List all users              | ✔️    | ✔️      | ✔️      |
