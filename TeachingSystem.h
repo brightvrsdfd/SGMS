@@ -21,12 +21,13 @@ public:
     void DeleteAssignment(std::string teacherName, std::string courseName, std::string assignment, std::string content);
 
     void SubmitAssignment(std::string teacherName, std::string studentName, std::string courseName, std::string assignment, std::string content);
-    void DeleteSubmission(std::string teacherName, std::string studentName, std::string courseName, std::string assignment, std::string content);
+    void DeleteSubmission(std::string teacherName, std::string studentName, std::string courseName, std::string assignment);
     void MarkSubmission(std::string teacherName, std::string studentName, std::string courseName, std::string assignment, std::string mark);
 
     std::string getCourseInfo(std::string teacherName, std::string courseName);
     std::string getAssignmentInfo(std::string teacherName, std::string courseName, std::string assignment);
     std::string getSubmissionInfo(std::string teacherName, std::string courseName, std::string assignment, std::string studentName);
+    std::string getSubmissionMark(std::string teacherName, std::string courseName, std::string assignment, std::string studentName);
 
     std::string getInfo(std::string path);
 

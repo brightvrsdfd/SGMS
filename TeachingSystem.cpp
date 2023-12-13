@@ -102,7 +102,7 @@ void TeachingSystem::SubmitAssignment(std::string teacherName, std::string stude
     fileSys.WriteFile(path + "/submission", content);
 }
 
-void TeachingSystem::DeleteSubmission(std::string teacherName, std::string studentName, std::string courseName, std::string assignment, std::string content)
+void TeachingSystem::DeleteSubmission(std::string teacherName, std::string studentName, std::string courseName, std::string assignment)
 {
     string path = "Course/" + teacherName + "/" + courseName + "/" + assignment + "/" + studentName;
     fileSys.Delete(path);
@@ -135,6 +135,13 @@ std::string TeachingSystem::getSubmissionInfo(std::string teacherName, std::stri
     string path = "Course/" + teacherName + "/" + courseName + "/" + assignment + "/" + studentName + "/submission";
     std::string subInfo = fileSys.getFileCont(path);
     return subInfo;
+}
+
+std::string TeachingSystem::getSubmissionMark(std::string teacherName, std::string courseName, std::string assignment, std::string studentName)
+{
+    string path = "Course/" + teacherName + "/" + courseName + "/" + assignment + "/" + studentName + "/mark";
+    std::string mark = fileSys.getFileCont(path);
+    return mark;
 }
 
 void TeachingSystem::Backup()

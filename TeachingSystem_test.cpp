@@ -26,6 +26,9 @@ int main(){
     ts.CreateAssignment("teacher2", "NLP", "LAB1", "Lab1Content");
     ts.CreateAssignment("teacher2", "NLP", "LAB2", "Lab2Content");
 
+    ts.SubmitAssignment("teacher1", "student1", "Computer-Science", "LAB1", "Lab1Content");
+    ts.MarkSubmission("teacher1", "student1", "Computer-Science", "LAB1", "99");
+
     while(true)
     {
         string command0;
@@ -63,8 +66,9 @@ int main(){
                     << "12      -- Get course info in list "<<endl
                     << "13      -- Get assignment content "<<endl
                     << "14      -- Get submission content "<<endl
-                    << "15      -- Backup system "<<endl
-                    << "16      -- Recovery system "<<endl
+                    << "15      -- Get submission mark "<<endl
+                    << "16      -- Backup system "<<endl
+                    << "17      -- Recovery system "<<endl
                     << "----------------------------------------" << endl;
 
                 while(true)
@@ -91,8 +95,9 @@ int main(){
                         << "12      -- Get course info in list "<<endl
                         << "13      -- Get assignment content "<<endl
                         << "14      -- Get submission content "<<endl
-                        << "15      -- Backup system "<<endl
-                        << "16      -- Recovery system "<<endl
+                        << "15      -- Get submission mark "<<endl
+                        << "16      -- Backup system "<<endl
+                        << "17      -- Recovery system "<<endl
                         << "----------------------------------------" << endl;
                     }
                     else if (command == "0")
@@ -191,14 +196,12 @@ int main(){
                         string studentName;
                         string courseName;
                         string assignName;
-                        string content;
                         cout << "teacher name:" ; cin >> teacherName;
                         cout << "student name:" ; cin >> studentName;
                         cout << "course name:" ; cin >> courseName;
                         cout << "assignment name:" ; cin >> assignName;
-                        cout << "content of submission:" ; cin >> content;
 
-                        ts.DeleteSubmission(teacherName, studentName, courseName, assignName, content);
+                        ts.DeleteSubmission(teacherName, studentName, courseName, assignName);
                     }
                     else if (command == "11")
                     {
@@ -250,9 +253,22 @@ int main(){
                     }
                     else if (command == "15")
                     {
-                        ts.Backup();
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        string studentName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "student name:" ; cin >> studentName;
+
+                        cout << ts.getSubmissionMark(teacherName, courseName, assignName, studentName) << endl;
                     }
                     else if (command == "16")
+                    {
+                        ts.Backup();
+                    }
+                    else if (command == "17")
                     {
                         ts.Recovery();
                     }
@@ -274,6 +290,7 @@ int main(){
                     << "5       -- Get course info in list "<<endl
                     << "6       -- Get assignment content "<<endl
                     << "7       -- Get submission content "<<endl
+                    << "8       -- Get submission mark "<<endl
                     << "----------------------------------------" << endl;
                 while(true)
                 {
@@ -288,10 +305,12 @@ int main(){
                         << "1       -- List all users" << endl
                         << "2       -- Create a assignment "<<endl
                         << "3       -- Delete a assignment "<<endl
-                        << "4       -- Mark a submission "<<endl
-                        << "5       -- Get course info in list "<<endl
-                        << "6       -- Get assignment content "<<endl
-                        << "7       -- Get submission content "<<endl
+                        << "4       -- Create a submission "<<endl
+                        << "5       -- Delete a submission "<<endl
+                        << "6       -- Mark a submission "<<endl
+                        << "7       -- Get assignment content "<<endl
+                        << "8       -- Get submission content "<<endl
+                        << "9       -- Get submission mark "<<endl
                         << "----------------------------------------" << endl;
                     }
                     else if (command == "0")
@@ -333,7 +352,7 @@ int main(){
                         cout << "student name:" ; cin >> studentName;
                         cout << "course name:" ; cin >> courseName;
                         cout << "assignment name:" ; cin >> assignName;
-                        cout << "content of submission:" ; cin >> content;
+                        cout << "content:" ; cin >> content;
 
                         ts.SubmitAssignment(username, studentName, courseName, assignName, content);
                     }
@@ -342,13 +361,11 @@ int main(){
                         string studentName;
                         string courseName;
                         string assignName;
-                        string content;
                         cout << "student name:" ; cin >> studentName;
                         cout << "course name:" ; cin >> courseName;
                         cout << "assignment name:" ; cin >> assignName;
-                        cout << "content of submission:" ; cin >> content;
 
-                        ts.DeleteSubmission(username, studentName, courseName, assignName, content);
+                        ts.DeleteSubmission(username, studentName, courseName, assignName);
                     }
                     else if (command == "6")
                     {
@@ -366,18 +383,22 @@ int main(){
                     else if (command == "7")
                     {
                         string courseName;
-                        cout << "course name:" ; cin >> courseName;
-
-                        cout << ts.getCourseInfo(username, courseName) << endl;
-                    }
-                    else if (command == "8")
-                    {
-                        string courseName;
                         string assignName;
                         cout << "course name:" ; cin >> courseName;
                         cout << "assignment name:" ; cin >> assignName;
 
                         cout << ts.getAssignmentInfo(username, courseName, assignName) << endl;
+                    }
+                    else if (command == "8")
+                    {
+                        string courseName;
+                        string assignName;
+                        string studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "student name:" ; cin >> studentName;
+
+                        cout << ts.getSubmissionInfo(username, courseName, assignName, studentName) << endl;
                     }
                     else if (command == "9")
                     {
@@ -388,7 +409,7 @@ int main(){
                         cout << "assignment name:" ; cin >> assignName;
                         cout << "student name:" ; cin >> studentName;
 
-                        cout << ts.getSubmissionInfo(username, courseName, assignName, studentName) << endl;
+                        cout << ts.getSubmissionMark(username, courseName, assignName, studentName) << endl;
                     }
                     else 
                     {
@@ -405,6 +426,7 @@ int main(){
                     << "2       -- Delete your submission "<<endl
                     << "3       -- Get assignment content "<<endl
                     << "4       -- Get submission content "<<endl
+                    << "5       -- Get submission mark "<<endl
                     << "----------------------------------------" << endl;
                 while(true)
                 {
@@ -420,6 +442,7 @@ int main(){
                         << "2       -- Delete your submission "<<endl
                         << "3       -- Get assignment content "<<endl
                         << "4       -- Get submission content "<<endl
+                        << "5       -- Get submission mark "<<endl
                         << "----------------------------------------" << endl;
                     }
                     else if (command == "0")
@@ -444,13 +467,11 @@ int main(){
                         string teacherName;
                         string courseName;
                         string assignName;
-                        string content;
                         cout << "teacher name:" ; cin >> teacherName;
                         cout << "course name:" ; cin >> courseName;
                         cout << "assignment name:" ; cin >> assignName;
-                        cout << "content of submission:" ; cin >> content;
 
-                        ts.DeleteSubmission(teacherName, username, courseName, assignName, content);
+                        ts.DeleteSubmission(teacherName, username, courseName, assignName);
                     }
                     else if (command == "3")
                     {
@@ -475,6 +496,17 @@ int main(){
                         cout << "student name:" ; cin >> studentName;
 
                         cout << ts.getSubmissionInfo(teacherName, courseName, assignName, username) << endl;
+                    }
+                    else if (command == "5")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+
+                        cout << ts.getSubmissionMark(teacherName, courseName, assignName, username) << endl;
                     }
                     else 
                     {
