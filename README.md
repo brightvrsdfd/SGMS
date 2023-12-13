@@ -32,24 +32,25 @@ The system users are divided into three categories:
 The system is built on the principles of basic file management and inter-process communication in the operating system. It employs the `I-Node` file system type and uses `pipes` for inter-process communication. The system is required to implement the following functionalities:
 
 
-|          | ADMIN | TEACHER | STUDENT |
-|----------|--------|------|------|
-| 登陆系统 |   √    |  √   |  √   |
-| 创建用户 |   √    |  ×   |  ×   |
-| 创建文件夹 |  √    |      |      |
-| 删除文件夹 |  √    |      |      |
-| 列出目录下文件 |  √    |      |      |
-| 创建文件 |   √    |      |      |
-| 删除文件 |   √    |      |      |
-| 读取文件 |   √    |      |      |
-| 写入文件 |   √    |      |      |
-| 更改访问权限 |  √    |      |      |
-| 备份系统 |   √    |  ×   |  ×   |
-| 恢复系统 |   √    |  ×   |  ×   |
+| 操作编号 | 操作描述                    | ADMIN | TEACHER | STUDENT |
+|---------|-----------------------------|-------|---------|---------|
+| 0       | Exit file system            | ✔️    | ✔️      | ✔️      |
+| 1       | List all users              | ✔️    | ✔️      | ✔️      |
+| 2       | Show all information        | ✔️    | ❌      | ❌      |
+| 3       | Create a User               | ✔️    | ❌      | ❌      |
+| 4       | Delete a User               | ✔️    | ❌      | ❌      |
+| 5       | Create a course             | ✔️    | ❌      | ❌      |
+| 6       | Delete a course             | ✔️    | ❌      | ❌      |
+| 7       | Create an assignment        | ✔️    | ✔️      | ❌      |
+| 8       | Delete an assignment        | ✔️    | ✔️      | ❌      |
+| 9       | Create a submission         | ✔️    | ✔️      | ✔️      |
+| 10      | Delete a submission         | ✔️    | ✔️      | ✔️      |
+| 11      | Mark a submission           | ✔️    | ✔️      | ❌      |
+| 12      | Get course info in list     | ✔️    | ✔️      | ✔️      |
+| 13      | Get assignment content      | ✔️    | ✔️      | ✔️      |
+| 14      | Get submission content      | ✔️    | ✔️      | ✔️      |
+| 15      | Backup system               | ✔️    | ❌      | ❌      |
+| 16      | Recovery system             | ✔️    | ❌      | ❌      |
 
-注意，设计系统时应该注意使用互斥锁对资源进行保护，例如对单个文件进行读写时应当阻止其他用户的访问，管理员对系统进行备份与恢复时，应当阻止其他用户对所有文件的访问。
-下面给出系统额外功能的可选参考：
-* I-Node 所能容纳的文件块数目有限，当文件大小超出限制时的应对方法。
-* 利用 socket 套接口进程间通讯。
-* 实现文件快照，相比文件备份，文件快照只记录文件的改动，效率更高，占用空间更小。
-* 现实场景中文件系统包含的其他功能，例如密码登录、密码修改、用户删除、文件所属用户更改、文件所属用户组更改等等，学生可自行设计，言之有理即可。
+
+There may be an issue where the filesystem accessed by different clients is not consistent in practice.
