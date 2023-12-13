@@ -167,13 +167,11 @@ int main(){
                         string teacherName;
                         string courseName;
                         string assignName;
-                        string content;
                         cout << "teacher name:" ; cin >> teacherName;
                         cout << "course name:" ; cin >> courseName;
                         cout << "assignment name:" ; cin >> assignName;
-                        cout << "content of assiment:" ; cin >> content;
 
-                        ts.DeleteAssignment(teacherName, courseName, assignName, content);
+                        ts.DeleteAssignment(teacherName, courseName, assignName);
                     }
                     else if (command == "9")
                     {
@@ -336,12 +334,10 @@ int main(){
                     {
                         string courseName;
                         string assignName;
-                        string content;
                         cout << "course name:" ; cin >> courseName;
                         cout << "assignment name:" ; cin >> assignName;
-                        cout << "content of assiment:" ; cin >> content;
 
-                        ts.DeleteAssignment(username, courseName, assignName, content);
+                        ts.DeleteAssignment(username, courseName, assignName);
                     }
                     else if (command == "4")
                     {

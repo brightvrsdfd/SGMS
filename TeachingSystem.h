@@ -18,7 +18,7 @@ public:
     void DeleteCourse(std::string teacherName, std::string courseName);
 
     void CreateAssignment(std::string teacherName, std::string courseName, std::string assignment, std::string content);
-    void DeleteAssignment(std::string teacherName, std::string courseName, std::string assignment, std::string content);
+    void DeleteAssignment(std::string teacherName, std::string courseName, std::string assignment);
 
     void SubmitAssignment(std::string teacherName, std::string studentName, std::string courseName, std::string assignment, std::string content);
     void DeleteSubmission(std::string teacherName, std::string studentName, std::string courseName, std::string assignment);

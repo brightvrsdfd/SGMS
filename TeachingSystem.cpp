@@ -87,7 +87,7 @@ void TeachingSystem::CreateAssignment(std::string teacherName, std::string cours
     fileSys.WriteFile(path + "/Description", content);
 }
 
-void TeachingSystem::DeleteAssignment(std::string teacherName, std::string courseName, std::string assignment, std::string content)
+void TeachingSystem::DeleteAssignment(std::string teacherName, std::string courseName, std::string assignment)
 {
     string path = "Course/" + teacherName + "/" + courseName + "/" + assignment;
     fileSys.Delete(path);
