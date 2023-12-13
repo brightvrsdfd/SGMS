@@ -9,7 +9,7 @@ int main(){
     database.CreateUser("root", "root", "1");
     database.CreateUser("teacher", "teacher", "2");
     database.CreateUser("student", "student", "3");
-    // 主循环
+
     while(true)
     {
         string command0;

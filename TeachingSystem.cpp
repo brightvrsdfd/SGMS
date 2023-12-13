@@ -3,11 +3,15 @@
 
 using namespace std;
 
+string TeachingSystem::getInfo(string path)
+{
+    return fileSys.getList(path);
+}
+
 TeachingSystem::TeachingSystem()
 {
     fileSys.CreateDir("User");
     fileSys.CreateDir("Course");
-    // TeachingSystem::CreateUser("root","root", 1);
 }
 
 string TeachingSystem::getLoginStatus(string username, string password)
@@ -63,7 +67,9 @@ void TeachingSystem::DeleteUser(string username)
 
 void TeachingSystem::CreateCourse(std::string teacherName, std::string courseName)
 {
-    string path = "Course/" + teacherName + "/" + courseName;
+    string path = "Course/" + teacherName;
+    fileSys.CreateDir(path);
+    path = "Course/" + teacherName + "/" + courseName;
     fileSys.CreateDir(path);
 }
 
@@ -105,6 +111,8 @@ void TeachingSystem::DeleteSubmission(std::string teacherName, std::string stude
 void TeachingSystem::MarkSubmission(std::string teacherName, std::string studentName, std::string courseName, std::string assignment, std::string mark)
 {
     string path = "Course/" + teacherName + "/" + courseName + "/" + assignment + "/" + studentName + "/mark";
+    fileSys.Delete(path);
+    fileSys.CreateFile(path);
     fileSys.WriteFile(path, mark);
 }
 

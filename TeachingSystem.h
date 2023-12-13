@@ -28,6 +28,8 @@ public:
     std::string getAssignmentInfo(std::string teacherName, std::string courseName, std::string assignment);
     std::string getSubmissionInfo(std::string teacherName, std::string courseName, std::string assignment, std::string studentName);
 
+    std::string getInfo(std::string path);
+
     void Backup();
     void Recovery();
 

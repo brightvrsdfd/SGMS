@@ -8,555 +8,474 @@ int main(){
     string username;
     
     ts.CreateUser("root", "root", "1");
-    ts.CreateUser("teacher", "teacher", "2");
-    ts.CreateUser("student", "student", "3");
+    ts.CreateUser("teacher1", "teacher1", "2");
+    ts.CreateUser("teacher2", "teacher3", "2");
+    ts.CreateUser("teacher3", "teacher3", "2");
+    ts.CreateUser("student1", "student1", "3");
+    ts.CreateUser("student2", "student2", "3");
+    ts.CreateUser("student3", "student3", "3");
+    ts.CreateCourse("teacher1", "Computer-Science");
+    ts.CreateCourse("teacher1", "Computer-Vision");
+    ts.CreateCourse("teacher2", "NLP");
+    ts.CreateCourse("teacher3", "RL");
+    ts.CreateAssignment("teacher1", "Computer-Science", "LAB1", "Lab1Content");
 
-     while(true)
+    while(true)
     {
         string command0;
-        cout<<"Please enter 1 to log in and 0 to exit："<<endl;
-        cout << "--------------------------------------------------------------------------------" << endl;
+        cout << "Please enter 1 to log in and 0 to exit：" << endl;
+        cout << "----------------------------------------" << endl;
         cin >> command0;
-        if(command0=="0")
+        if(command0=="0") break;
+        else if (command0=="1")
         {
-            break;
-        }
-        else if(command0=="1")
-        {
-            // 登录界面
-            string current_user="No_current_user";
+            string current_user = "No_current_user";
+            string role;
 
-            while (true)
-            {
-                cout << ts.ListUser() << endl;
+            cout << ts.ListUser() << endl;
+            string password;
+            cout << "Username:"; cin  >> username;
+            cout << "Password:"; cin  >> password;
+            role = ts.getLoginStatus(username, password);
 
-                string password;
-                string role;
+            if(role == "1")
+            {
+                cout << "----------------------------------------" << endl
+                    << "help    -- More avaliable commands" << endl
+                    << "0       -- Exit file system" << endl
+                    << "1       -- List all users" << endl
+                    << "2       -- Show all infomation"<<endl
+                    << "3       -- Create a User"<<endl
+                    << "4       -- Delete a User "<<endl
+                    << "5       -- Create a course "<<endl
+                    << "6       -- Delete a course "<<endl
+                    << "7       -- Create a assignment "<<endl
+                    << "8       -- Delete a assignment "<<endl
+                    << "9       -- Create a submission "<<endl
+                    << "10      -- Delete a submission "<<endl
+                    << "11      -- Mark a submission "<<endl
+                    << "12      -- Get course info in list "<<endl
+                    << "13      -- Get assignment content "<<endl
+                    << "14      -- Get submission content "<<endl
+                    << "15      -- Backup system "<<endl
+                    << "16      -- Recovery system "<<endl
+                    << "----------------------------------------" << endl;
 
-                cout << "Username:";
-                cin  >> username;
-                cout << "Password:";
-                cin  >> password;
-                role = ts.getLoginStatus(username, password);
-                
-                if (role == "1") {
-                    cout << "--------------------------------------------------------------------------------" << endl;
-                    cout << "You are an administrator." << endl;
-                    current_user="admin";
-                    break;
-                    }
-                else if (role == "2") {
-                    cout << "--------------------------------------------------------------------------------" << endl;
-                    cout << "You are an teacher." << endl;
-                    current_user="teacher";
-                    break;
-                    }
-                else if (role == "3") {
-                    cout << "--------------------------------------------------------------------------------" << endl;
-                    cout << "You are an student." << endl;
-                    current_user="student";
-                    break;
-                    }
-                else {
-                    cout << "user does not exit / wrong username or password /" << endl;
-                }
-            }
-            if(current_user=="admin")
-            {
-                // admin的权限表
-                cout<< "--------------------------------------------------------------------------------" << endl
-                    << "help    -- more avaliable commands" << endl
-                    << "0       -- exit file system" << endl
-                    << "1       -- Create course" << endl
-                    << "2       -- Print courses"<<endl
-                    << "3       -- Create assignment"<<endl
-                    << "4       -- Create User"<<endl
-                    << "5       -- Delete User "<<endl
-                    << "6       -- Delete course "<<endl
-                    << "7       -- List User "<<endl
-                    << "8       -- Mark Homework "<<endl
-                    << "9       -- Print Assignment Content "<<endl
-                    << "10      -- Print Assignment Title "<<endl
-                    << "11      -- Print Submitted Homework "<<endl
-                    << "12      -- Print Score "<<endl
-                    << "13      -- Receive Homework "<<endl
-                    << "14      -- Back up "<<endl
-                    << "15      -- recorvery "<<endl
-                    << "16      -- Submit Homework"<<endl
-                    << "--------------------------------------------------------------------------------" << endl;
-            }
-            if(current_user=="teacher")
-            {
-                // teacher的权限表
-                cout<< "--------------------------------------------------------------------------------" << endl
-                    << "help    -- more avaliable commands" << endl
-                    << "0       -- exit file system" << endl
-                    << "1       -- Create course" << endl
-                    << "2       -- Print courses"<<endl
-                    << "3       -- Create assignment"<<endl
-                    // << "4       -- Create User"<<endl
-                    // << "5       -- Delete User "<<endl
-                    << "6       -- Delete course "<<endl
-                    // << "7       -- List User "<<endl
-                    << "8       -- Mark Homework "<<endl
-                    << "9       -- Print Assignment Content "<<endl
-                    << "10      -- Print Assignment Title "<<endl
-                    << "11      -- Print Submitted Homework "<<endl
-                    << "12      -- Print Score "<<endl
-                    << "13      -- Receive Homework "<<endl
-                    // << "14      -- Back up "<<endl
-                    // << "15      -- recorvery "<<endl
-                    << "16      -- Submit Homework"<<endl
-                    << "--------------------------------------------------------------------------------" << endl;
-            }
-            if(current_user=="student")
-            {
-                // student的权限表
-                cout<< "--------------------------------------------------------------------------------" << endl
-                    << "help    -- more avaliable commands" << endl
-                    << "0       -- exit file system" << endl
-                    // << "1       -- Create course" << endl
-                    << "2       -- Print courses"<<endl
-                    // << "3       -- Create assignment"<<endl
-                    // << "4       -- Create User"<<endl
-                    // << "5       -- Delete User "<<endl
-                    // << "6       -- Delete course "<<endl
-                    // << "7       -- List User "<<endl
-                    // << "8       -- Mark Homework "<<endl
-                    << "9       -- Print Assignment Content "<<endl
-                    << "10      -- Print Assignment Title "<<endl
-                    // << "11      -- Print Submitted Homework "<<endl
-                    << "12      -- Print Score "<<endl
-                    // << "13      -- Receive Homework "<<endl
-                    // << "14      -- Back up "<<endl
-                    // << "15      -- recorvery "<<endl
-                    << "16      -- Submit Homework"<<endl
-                    << "--------------------------------------------------------------------------------" << endl;
-            }
-            // 命令界面
-            while(true)
-            {
-                string command;
-                cout<<"Please enter your command.Enter 'help' for help."<<endl;
-                cout << "--------------------------------------------------------------------------------" << endl;
-                cin >> command;
-                if (command == "0")
+                while(true)
                 {
-                    break;
-                }
-                // Create course
-                else if(command == "1")
-                {
-                    if(current_user != "admin" && current_user != "teacher")
+                    string command;
+                    cout << "Type in the number refer to the specific command:";
+                    cin >> command;
+                    if (command == "help")
                     {
-                    cout<<"Permission denied!"<<endl;
-                    cout << "--------------------------------------------------------------------------------" << endl;
+                        cout << "----------------------------------------" << endl
+                        << "help    -- More avaliable commands" << endl
+                        << "0       -- Exit file system" << endl
+                        << "1       -- List all users" << endl
+                        << "2       -- Show all infomation"<<endl
+                        << "3       -- Create a User"<<endl
+                        << "4       -- Delete a User "<<endl
+                        << "5       -- Create a course "<<endl
+                        << "6       -- Delete a course "<<endl
+                        << "7       -- Create a assignment "<<endl
+                        << "8       -- Delete a assignment "<<endl
+                        << "9       -- Create a submission "<<endl
+                        << "10      -- Delete a submission "<<endl
+                        << "11      -- Mark a submission "<<endl
+                        << "12      -- Get course info in list "<<endl
+                        << "13      -- Get assignment content "<<endl
+                        << "14      -- Get submission content "<<endl
+                        << "15      -- Backup system "<<endl
+                        << "16      -- Recovery system "<<endl
+                        << "----------------------------------------" << endl;
                     }
-                    else
+                    else if (command == "0")
                     {
-                    string course_name;
-                    string teacherName;
-                    if (current_user == "teacher")
+                        break;
+                    }
+                    else if (command == "1")
                     {
-                        teacherName = username;
+                        cout << ts.ListUser() << endl;
+                    }
+                    else if (command == "2")
+                    {
+                        cout << ts.ShowAllInfo() << endl;
+                    }
+                    else if (command == "3")
+                    {
+                        string newUserName;
+                        string newUserPass;
+                        string newUserRole;
+                        cout << "New username:" ; cin >> newUserName;
+                        cout << "New password:" ; cin >> newUserPass;
+                        cout << "1 is ADMIN, 2 is TEACHER, 3 is STUDENT." << endl;
+                        cout << "New userRole:" ; cin >> newUserRole;
+
+                        ts.CreateUser(newUserName, newUserPass, role);
+                    }
+                    else if (command == "4")
+                    {
+                        cout << ts.ListUser() << endl;
+                        string nameToDel;
+                        cout << "User to be deleted:" ; cin >> nameToDel;
+                        ts.DeleteUser(nameToDel);
+                    }
+                    else if (command == "5")
+                    {
+                        string teacherName;
+                        string newCourseName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> newCourseName;
+
+                        ts.CreateCourse(teacherName, newCourseName);
+                    }
+                    else if (command == "6")
+                    {
+                        string teacherName;
+                        string newCourseName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> newCourseName;
+
+                        ts.DeleteCourse(teacherName, newCourseName);
+                    }
+                    else if (command == "7")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of assiment:" ; cin >> content;
+
+                        ts.CreateAssignment(teacherName, courseName, assignName, content);
+                    }
+                    else if (command == "8")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of assiment:" ; cin >> content;
+
+                        ts.DeleteAssignment(teacherName, courseName, assignName, content);
+                    }
+                    else if (command == "9")
+                    {
+                        string teacherName;
+                        string studentName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "student name:" ; cin >> studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of submission:" ; cin >> content;
+
+                        ts.SubmitAssignment(teacherName, studentName, courseName, assignName, content);
+                    }
+                    else if (command == "10")
+                    {
+                        string teacherName;
+                        string studentName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "student name:" ; cin >> studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of submission:" ; cin >> content;
+
+                        ts.DeleteSubmission(teacherName, studentName, courseName, assignName, content);
+                    }
+                    else if (command == "11")
+                    {
+                        string teacherName;
+                        string studentName;
+                        string courseName;
+                        string assignName;
+                        string mark;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "student name:" ; cin >> studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "mark of submission:" ; cin >> mark;
+
+                        ts.MarkSubmission(teacherName, studentName, courseName, assignName, mark);
+                    }
+                    else if (command == "12")
+                    {
+                        string teacherName;
+                        string courseName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+
+                        cout << ts.getCourseInfo(teacherName, courseName) << endl;
+                    }
+                    else if (command == "13")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+
+                        cout << ts.getAssignmentInfo(teacherName, courseName, assignName) << endl;
+                    }
+                    else if (command == "14")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        string studentName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "student name:" ; cin >> studentName;
+
+                        cout << ts.getSubmissionInfo(teacherName, courseName, assignName, studentName) << endl;
+                    }
+                    else if (command == "15")
+                    {
+                        ts.Backup();
+                    }
+                    else if (command == "16")
+                    {
+                        ts.Recovery();
                     }
                     else 
                     {
-                        cout<<"Please enter the name of the teacher:"<<endl;
-                        cin>> teacherName;
-                    }
-                    
-                    cout<<"Please enter the name of the course:"<<endl;
-                    cin>> course_name;
-                    ts.CreateCourse(teacherName, course_name);
-                    cout<<"Course added."<<endl;
-                    cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-
-                }
-                // Print courses
-                else if(command=="2")
-                {
-                    if(current_user != "admin" && current_user != "teacher"&& current_user != "student")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        cout<<database.PrintCourse()<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
+                        cout << "invalid input." << endl;
                     }
                 }
-                // Create assignment
-                else if(command=="3")
-                {
-                    if(current_user != "admin" && current_user != "teacher")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        cout<<database.PrintCourse()<<endl;
-                        string course_name,assignment,content;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<"assignment name:"<<endl;
-                        cin>>assignment;
-                        cout<<"Homework content:"<<endl;
-                        cin>>content;
-                        database.CreateAssignment(course_name,assignment,content);
-                        cout<<"Homework created."<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Create User
-                else if(command=="4")
-                {
-                    if(current_user != "admin" )
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {   
-                        string new_user;
-                        string new_password;
-                        string new_role;
-                        cout<<"Username:"<<endl;
-                        cin>>new_user;
-                        cout<<"Password:"<<endl;
-                        cin>>new_password;
-                        cout<<"Role('1'=admin,'2'=teacher,'3'=student):"<<endl;
-                        cin>>new_role;
-                        database.CreateUser(new_user,new_password,new_role);
-                        cout<<"New User created."<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Delete User
-                else if(command=="5")
-                {
-                    if(current_user != "admin")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string DeletedUser;
-                        cout<<"User name to be deleted:"<<endl;
-                        cin>>DeletedUser;
-                        database.DeleteUser(DeletedUser);
-                        cout<<"User deleted."<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Delete course
-                else if(command=="6")
-                {
-                    if(current_user != "admin" && current_user != "teacher")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string DeletedCourse;
-                        cout<<"Course to be deleted:"<<endl;
-                        cin>>DeletedCourse;
-                        database.DeleteCourse(DeletedCourse);
-                        cout<<"Course deleted."<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // List User
-                else if(command=="7")
-                {
-                    if(current_user != "admin" )
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        cout << database.ListUser() << endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Mark Homework
-                else if(command=="8")
-                {
-                    if(current_user != "admin" && current_user != "teacher")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string course_name,assignment,title,score;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<"assignment name:"<<endl;
-                        cin>>assignment;
-                        cout<<"title:"<<endl;
-                        cin>>title;
-                        cout<<"The score you want to rate:"<<endl;
-                        cin>>score;
-                        database.MarkHomework(course_name,assignment,title,score);
-                        cout<<"Score complete"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Print Assignment Content
-                else if(command=="9")
-                {
-                    if(current_user != "admin" && current_user != "teacher"&& current_user != "student")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {   string course_name,assignment;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<"assignment name:"<<endl;
-                        cin>>assignment;
-                        cout << database.getAssignmentContent(course_name,assignment) << endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Print Assignment Title
-                else if(command=="10")
-                {
-                    if(current_user != "admin" && current_user != "teacher"&& current_user!="student")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string course_name;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<database.getAssignmentTitles(course_name)<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Print Submitted Homework
-                else if(command=="11")
-                {
-                    if(current_user != "admin" && current_user != "teacher")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string course_name,assignment;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<"assignment name:"<<endl;
-                        cin>>assignment;
-                        cout<<database.getHomworkTitles(course_name,assignment)<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Print Score
-                else if(command=="12")
-                {
-                    if(current_user != "admin" && current_user != "teacher"&& current_user != "student")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string course_name,assignment,title;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<"assignment name:"<<endl;
-                        cin>>assignment;
-                        cout<<"Title:"<<endl;
-                        cin>>title;
-                        cout<<database.getScoreInCourse(course_name,assignment,title)<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Receive Homework
-                else if(command=="13")
-                {
-                    if(current_user != "admin" && current_user != "teacher")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string course_name,assignment,title;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<"assignment name:"<<endl;
-                        cin>>assignment;
-                        cout<<"Title:"<<endl;
-                        cin>>title;
-                        cout<<database.getHomeworkContent(course_name,assignment,title)<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Back up
-                else if(command=="14")
-                {
-                    if(current_user != "admin" )
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        database.Backup();
-                        cout<<"Backup complete."<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Recorvery
-                else if(command=="15")
-                {
-                    if(current_user != "admin" )
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string yesorno;
-                        cout<<"Are you sure?y/n"<<endl;
-                        cin>>yesorno;
-                        if(yesorno=="y"){
-                           database.Recovery(); 
-                           cout<<"Recovery complete."<<endl;
-                        }
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // Submit Homework
-                else if(command=="16")
-                {
-                    if(current_user != "admin" && current_user != "teacher"&& current_user != "student")
-                    {
-                        cout<<"Permission denied!"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    else
-                    {
-                        string course_name,assignment,title,content;
-                        cout<<"Course name:"<<endl;
-                        cin>>course_name;
-                        cout<<"assignment name:"<<endl;
-                        cin>>assignment;
-                        cout<<"Title:"<<endl;
-                        cin>>title;
-                        cout<<"Please enter the content of your homework:"<<endl;
-                        cin>>content;
-                        database.SubmitAssignment(course_name,assignment,title,content);
-                        cout<<"Homework submitted"<<endl;
-                        cout << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                else if(command=="help")
-                {
-                    if(current_user=="admin")
-                    {
-                    // admin的权限表
-                    cout<< "--------------------------------------------------------------------------------" << endl
-                        << "help    -- more avaliable commands" << endl
-                        << "0       -- exit file system" << endl
-                        << "1       -- Create course" << endl
-                        << "2       -- Print courses"<<endl
-                        << "3       -- Create assignment"<<endl
-                        << "4       -- Create User"<<endl
-                        << "5       -- Delete User "<<endl
-                        << "6       -- Delete course "<<endl
-                        << "7       -- List User "<<endl
-                        << "8       -- Mark Homework "<<endl
-                        << "9       -- Print Assignment Content "<<endl
-                        << "10      -- Print Assignment Title "<<endl
-                        << "11      -- Print Submitted Homework "<<endl
-                        << "12      -- Print Score "<<endl
-                        << "13      -- Receive Homework "<<endl
-                        << "14      -- Back up "<<endl
-                        << "15      -- recorvery "<<endl
-                        << "16      -- Submit Homework"<<endl
-                        << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    if(current_user=="teacher")
-                    {
-                    // teacher的权限表
-                    cout<< "--------------------------------------------------------------------------------" << endl
-                        << "help    -- more avaliable commands" << endl
-                        << "0       -- exit file system" << endl
-                        << "1       -- Create course" << endl
-                        << "2       -- Print courses"<<endl
-                        << "3       -- Create assignment"<<endl
-                        // << "4       -- Create User"<<endl
-                        // << "5       -- Delete User "<<endl
-                        << "6       -- Delete course "<<endl
-                        // << "7       -- List User "<<endl
-                        << "8       -- Mark Homework "<<endl
-                        << "9       -- Print Assignment Content "<<endl
-                        << "10      -- Print Assignment Title "<<endl
-                        << "11      -- Print Submitted Homework "<<endl
-                        << "12      -- Print Score "<<endl
-                        << "13      -- Receive Homework "<<endl
-                        // << "14      -- Back up "<<endl
-                        // << "15      -- recorvery "<<endl
-                        << "16      -- Submit Homework"<<endl
-                        << "--------------------------------------------------------------------------------" << endl;
-                    }
-                    if(current_user=="student")
-                    {
-                    // student的权限表
-                    cout<< "--------------------------------------------------------------------------------" << endl
-                        << "help    -- more avaliable commands" << endl
-                        << "0       -- exit file system" << endl
-                        // << "1       -- Create course" << endl
-                        << "2       -- Print courses"<<endl
-                        // << "3       -- Create assignment"<<endl
-                        // << "4       -- Create User"<<endl
-                        // << "5       -- Delete User "<<endl
-                        // << "6       -- Delete course "<<endl
-                        // << "7       -- List User "<<endl
-                        // << "8       -- Mark Homework "<<endl
-                        << "9       -- Print Assignment Content "<<endl
-                        << "10      -- Print Assignment Title "<<endl
-                        // << "11      -- Print Submitted Homework "<<endl
-                        << "12      -- Print Score "<<endl
-                        // << "13      -- Receive Homework "<<endl
-                        // << "14      -- Back up "<<endl
-                        // << "15      -- recorvery "<<endl
-                        << "16      -- Submit Homework"<<endl
-                        << "--------------------------------------------------------------------------------" << endl;
-                    }
-                }
-                // else if(command == "check"){
-                //     string path;
-                //     cout<<"Path:"<<endl;
-                //     cin>>path;
-                //     database.CheckAll(path);
-                // }
-                else
-                {
-                    cout<<"Invalid command!"<<endl;
-                }
-                
-
             }
-        }
-        else
-        {
-            cout<<"Invalid command!"<<endl;
+            if(role == "2")
+            {
+                cout << "----------------------------------------" << endl
+                    << "help    -- More avaliable commands" << endl
+                    << "0       -- Exit file system" << endl
+                    << "1       -- List all users" << endl
+                    << "2       -- Create a assignment "<<endl
+                    << "3       -- Delete a assignment "<<endl
+                    << "4       -- Mark a submission "<<endl
+                    << "5       -- Get course info in list "<<endl
+                    << "6       -- Get assignment content "<<endl
+                    << "7       -- Get submission content "<<endl
+                    << "----------------------------------------" << endl;
+                while(true)
+                {
+                    string command;
+                    cout << "Type in the number refer to the specific command:";
+                    cin >> command;
+                    if (command == "help")
+                    {
+                        cout << "----------------------------------------" << endl
+                        << "help    -- More avaliable commands" << endl
+                        << "0       -- Exit file system" << endl
+                        << "1       -- List all users" << endl
+                        << "2       -- Create a assignment "<<endl
+                        << "3       -- Delete a assignment "<<endl
+                        << "4       -- Mark a submission "<<endl
+                        << "5       -- Get course info in list "<<endl
+                        << "6       -- Get assignment content "<<endl
+                        << "7       -- Get submission content "<<endl
+                        << "----------------------------------------" << endl;
+                    }
+                    else if (command == "0")
+                    {
+                        break;
+                    }
+                    else if (command == "1")
+                    {
+                        cout << ts.ListUser() << endl;
+                    }
+                    else if (command == "2")
+                    {
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of assiment:" ; cin >> content;
+
+                        ts.CreateAssignment(username, courseName, assignName, content);
+                    }
+                    else if (command == "3")
+                    {
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of assiment:" ; cin >> content;
+
+                        ts.DeleteAssignment(username, courseName, assignName, content);
+                    }
+                    else if (command == "4")
+                    {
+                        string studentName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "student name:" ; cin >> studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of submission:" ; cin >> content;
+
+                        ts.SubmitAssignment(username, studentName, courseName, assignName, content);
+                    }
+                    else if (command == "5")
+                    {
+                        string studentName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "student name:" ; cin >> studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of submission:" ; cin >> content;
+
+                        ts.DeleteSubmission(username, studentName, courseName, assignName, content);
+                    }
+                    else if (command == "6")
+                    {
+                        string studentName;
+                        string courseName;
+                        string assignName;
+                        string mark;
+                        cout << "student name:" ; cin >> studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "mark of submission:" ; cin >> mark;
+
+                        ts.MarkSubmission(username, studentName, courseName, assignName, mark);
+                    }
+                    else if (command == "7")
+                    {
+                        string courseName;
+                        cout << "course name:" ; cin >> courseName;
+
+                        cout << ts.getCourseInfo(username, courseName) << endl;
+                    }
+                    else if (command == "8")
+                    {
+                        string courseName;
+                        string assignName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+
+                        cout << ts.getAssignmentInfo(username, courseName, assignName) << endl;
+                    }
+                    else if (command == "9")
+                    {
+                        string courseName;
+                        string assignName;
+                        string studentName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "student name:" ; cin >> studentName;
+
+                        cout << ts.getSubmissionInfo(username, courseName, assignName, studentName) << endl;
+                    }
+                    else 
+                    {
+                        cout << "invalid input." << endl;
+                    }
+                }
+            }
+            if(role == "3")
+            {
+                cout << "----------------------------------------" << endl
+                    << "help    -- More avaliable commands" << endl
+                    << "0       -- Exit file system" << endl
+                    << "1       -- Create your submission "<<endl
+                    << "2       -- Delete your submission "<<endl
+                    << "3       -- Get assignment content "<<endl
+                    << "4       -- Get submission content "<<endl
+                    << "----------------------------------------" << endl;
+                while(true)
+                {
+                    string command;
+                    cout << "Type in the number refer to the specific command:";
+                    cin >> command;
+                    if (command == "help")
+                    {
+                        cout << "----------------------------------------" << endl
+                        << "help    -- More avaliable commands" << endl
+                        << "0       -- Exit file system" << endl
+                        << "1       -- Create your submission "<<endl
+                        << "2       -- Delete your submission "<<endl
+                        << "3       -- Get assignment content "<<endl
+                        << "4       -- Get submission content "<<endl
+                        << "----------------------------------------" << endl;
+                    }
+                    else if (command == "0")
+                    {
+                        break;
+                    }
+                    else if (command == "1")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of submission:" ; cin >> content;
+
+                        ts.SubmitAssignment(teacherName, username, courseName, assignName, content);
+                    }
+                    else if (command == "2")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        string content;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "content of submission:" ; cin >> content;
+
+                        ts.DeleteSubmission(teacherName, username, courseName, assignName, content);
+                    }
+                    else if (command == "3")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+
+                        cout << ts.getAssignmentInfo(teacherName, courseName, assignName) << endl;
+                    }
+                    else if (command == "4")
+                    {
+                        string teacherName;
+                        string courseName;
+                        string assignName;
+                        string studentName;
+                        cout << "teacher name:" ; cin >> teacherName;
+                        cout << "course name:" ; cin >> courseName;
+                        cout << "assignment name:" ; cin >> assignName;
+                        cout << "student name:" ; cin >> studentName;
+
+                        cout << ts.getSubmissionInfo(teacherName, courseName, assignName, username) << endl;
+                    }
+                    else 
+                    {
+                        cout << "invalid input." << endl;
+                    }
+                }
+            }
         }
     }
 }
-   
