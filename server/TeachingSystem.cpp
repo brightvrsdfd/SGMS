@@ -13,32 +13,50 @@ TeachingSystem::TeachingSystem()
 {
     fileSys = new FileSystem;
     fileSys->CreateDir("User");
+    fileSys->CreateDir("User/ADMIN");
+    fileSys->CreateDir("User/TEACHER");
+    fileSys->CreateDir("User/STUDENT");
     fileSys->CreateDir("Course");
 }
 
 string TeachingSystem::getLoginStatus(string username, string password)
 {
-    string role = fileSys->getFileCont("User/" + username + "/" + password);
+    string role = fileSys->getFileCont("User/ADMIN/" + username + "/" + password);
+    role += fileSys->getFileCont("User/TEACHER/" + username + "/" + password);
+    role += fileSys->getFileCont("User/STUDENT/" + username + "/" + password);
 
-    if (role == "")
+    if (role.empty())
         return "ERROR";
 
     return role;
 }
 
-string TeachingSystem::ListUser()
-{
-    vector<string> list = fileSys->getListVector("User");
-    if (list.size() == 0)
-    {
+string TeachingSystem::ListUser(){
+    std::vector<std::string> list_admin = fileSys->getListVector("User/ADMIN");
+    std::vector<std::string> list_teacher = fileSys->getListVector("User/TEACHER");
+    std::vector<std::string> list_student = fileSys->getListVector("User/STUDENT");
+
+    if (list_admin.empty() && list_teacher.empty() && list_student.empty()) {
         return "There is no user in the system.\n";
     }
 
-    string res = "There are these users in this system:\n";
-    for (int i = 0; i < list.size(); i++)
-    {
-        res = res + "    " + list[i] + "\n";
+    std::string res = "There are these users in this system:\n";
+
+    res += "  Admin:\n";
+    for (const auto& user : list_admin) {
+        res += "    " + user + "\n";
     }
+
+    res += "  Teacher:\n";
+    for (const auto& user : list_teacher) {
+        res += "    " + user + "\n";
+    }
+
+    res += "  Student:\n";
+    for (const auto& user : list_student) {
+        res += "    " + user + "\n";
+    }
+
     return res;
 }
 
@@ -52,20 +70,45 @@ string TeachingSystem::ShowAllInfo(){
 
 void TeachingSystem::CreateUser(string username, string password, string role)
 {
-    string path = "User/" + username;
-    fileSys->CreateDir(path);
+    if (role=="1")
+    {
+        string path = "User/ADMIN/" + username;
+        fileSys->CreateDir(path);
 
-    path = path + "/" + password;
-    fileSys->CreateFile(path);
+        path = path + "/" + password;
+        fileSys->CreateFile(path);
 
-    fileSys->WriteFile(path, role);
+        fileSys->WriteFile(path, role);
+    }
+    if (role=="2")
+    {
+        string path = "User/TEACHER/" + username;
+        fileSys->CreateDir(path);
 
-    // fileSys.WriteFile(path, string(1, char(role)));
+        path = path + "/" + password;
+        fileSys->CreateFile(path);
+
+        fileSys->WriteFile(path, role);
+    }
+    if (role=="3")
+    {
+        string path = "User/STUDENT/" + username;
+        fileSys->CreateDir(path);
+
+        path = path + "/" + password;
+        fileSys->CreateFile(path);
+
+        fileSys->WriteFile(path, role);
+    }
 }
 
 void TeachingSystem::DeleteUser(string username)
 {
-    string path = "User/" + username;
+    string path = "User/ADMIN/" + username;
+    fileSys->Delete(path);
+    path = "User/TEACHER/" + username;
+    fileSys->Delete(path);
+    path = "User/STUDENT/" + username;
     fileSys->Delete(path);
 }
 

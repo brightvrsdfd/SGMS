@@ -11,10 +11,10 @@ User::User()
 
 void User::Login()
 {
-    string s;
-
     while(1)
     {
+        string s;
+
         cli.Send("Login");
 
         helper("Username");
@@ -22,17 +22,27 @@ void User::Login()
 
         s=cli.Receive();
 
-        if(s!="ERROR")
-            break;
+        cout << s << endl;
+
+        if(s == "ERROR")
+        {
+            cout<<"Fail to login. Try again"<<endl;
+        }
             
-        cout<<"Fail to login. Try again"<<endl;
+        else if(s=="1"){
+            UI_A();}
+        else if(s=="2"){
+            UI_T();}
+        else if(s=="3"){
+            UI_S();}
+
     }
-    if(s=="1")
-        UI_A();
-    else if(s=="2")
-        UI_T();
-    else if(s=="3")
-        UI_S();
+    // if(s=="1")
+    //     UI_A();
+    // else if(s=="2")
+    //     UI_T();
+    // else if(s=="3")
+    //     UI_S();
 }
 
 void User::End()
@@ -77,7 +87,6 @@ void User::UI_A()
         cin>>s;
         if(s=="0")
         {
-            Exit();
             break;
         }
         else if(s=="1")
@@ -137,7 +146,6 @@ void User::UI_T()
         cin>>s;
         if(s=="0")
         {
-            Exit();
             break;
         }
         else if(s=="1")
@@ -152,7 +160,7 @@ void User::UI_T()
             getAssignmentInfo();
         else if(s=="6")
             getSubmissionInfo();
-        else if(s=="7")
+        else
             cout<<"Invalid input!"<<endl;
     }
 }
@@ -175,7 +183,6 @@ void User::UI_S()
         cin>>s;
         if(s=="0")
         {
-            Exit();
             break;
         }
         else if(s=="1")
